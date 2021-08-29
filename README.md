@@ -12,3 +12,7 @@
 1. 생활적 부분 지원을 위한, Custom QRcode 생성
     - Application : 원하는 String을 QRcode로 제작  
     String은 몇가지 부분으로 나뉘며, 전반부에 Custom QRcode인지 판단하는 Header정보 포함
+
+# Application
+## Workflow
+![Workflow](Documents\Application_Workflow.png)
