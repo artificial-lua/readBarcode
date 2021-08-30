@@ -1,0 +1,14 @@
+{
+  "name": "server-readbarcode",
+  "version": "0.1.0",
+  "description": "Server for ReadBarcode Application, write in Node.js and use MariaDB",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
