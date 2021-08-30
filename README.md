@@ -1,5 +1,6 @@
 # ReadBarcode
-<strong>주 기능</strong>
+정확한 설명은 Documents 디렉토리를 참고하도록 합시다.  
+## <strong>주 기능</strong>
 1. 바코드를 스캔하고, 해당 내용을 DB에서 검색하여 TTS로 읽는 동작
     - Apllication : 바코드를 스캔  
     해당 내용을 서버에 전송  
@@ -16,3 +17,11 @@
 # Application
 ## Workflow
 ![Workflow](Documents\Application_Workflow.png)
+
+
+# Server
+서버는 이후 확장성을 위해 Node.js기반으로 작성합니다.
+
+
+# DBMS
+DBMS는 MariaDB를 사용합니다.
