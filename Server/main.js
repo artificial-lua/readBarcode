@@ -12,7 +12,7 @@ app.get('/barcode/req/', function(req, res){
     console.log(respond);
 	const ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
 	var date = new Date();
-	res.send(respond['barcode']);
+	res.send(respond);
 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
 })
 
