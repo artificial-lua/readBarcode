@@ -1,32 +1,22 @@
+// express 모듈
 const express = require('express')
 const app = express()
 
-app.use('/', express.static('css'));
-app.use('/', express.static('js'));
-app.use('/', express.static('icon'));
+// 커스텀 모듈 - config decoder
+config = require('./config-decoder').open('./config.json')
+port = config['port']
 
+// url에 따라 분리해줍니다.
 app.get('/barcode/req/', function(req, res){
 	var respond = req.query;
     console.log(respond);
 	const ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
 	var date = new Date();
 	res.send(respond['barcode']);
-	console.log('[' + date + '] Index.js Respond to ' + ip);
+	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
 })
 
-
-// var vue = require('./routes/Vue.js')(app);
-// app.use('/vue.js', vue);
-
-
-// var guest_book = require('./routes/guest_book.js')(app);
-// app.use('/guest_book', guest_book);
-
-
-// var work = require('./routes/work.js')(app);
-// app.use('/work', work);
-
-
+// 마지막으로, 포트로 열어줍니다.
 app.listen(port, function(){
-	console.log('Example app listening on port ' + port + '!');
+	console.log('listening on port ' + port + '!');
 	})
