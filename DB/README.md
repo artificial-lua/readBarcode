@@ -14,7 +14,19 @@ DB에서 저장해야 할 내용은 아래와 같습니다.
 └ Data title( TTS로 읽어줄 주 타겟입니다. )  
 └ Data Descript ( 데이터에 대한 설명입니다. )  
 └ Thumbup ( 검증받은 횟수입니다. )  
+## Barcode Rait  
+└ id ( 바코드 Rawdata ID입니다. )  
+└ User Hash ( 평가한 유저 Hash입니다. )  
+└ rait ( 도움이 되었는가 아닌가에 대한 정보입니다.t/f )  
+└ date ( 평가 시간 )  
 ## Barcode DB
 └ Code ( 바코드 Rawdata 입니다. )  
 └ title ( TTS로 읽어줄 주 타겟입니다. )  
 └ Descript ( 설명입니다. )  
+
+# Version
+MariaDB 10.4.21
+
+
+# ERD
+![ERD](ERD.PNG)
