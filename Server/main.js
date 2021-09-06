@@ -15,7 +15,7 @@ app.get('/barcode/req/', function(req, res){
 	var date = new Date();
 	res.send(respond);
 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
-	db.query(`SELECT * FROM information`, function(error, result){
+	db.query(`SHOW DATABASES`, function(error, result){
 		console.log(result)
 	})
 })
