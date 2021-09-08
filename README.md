@@ -16,7 +16,7 @@
 
 # Application
 ## Workflow
-![Workflow](./Documents\Application_Workflow.png)
+![Workflow](./Documents/Application_Workflow.png)
 
 
 # Server
