@@ -1,18 +1,35 @@
-CREATE TABLE information
+CREATE TABLE user_group
+(
+    `group`  INT            NOT NULL    AUTO_INCREMENT COMMENT 'User_Group', 
+    `name`   VARCHAR(45)    NULL        COMMENT 'Group_Name', 
+     PRIMARY KEY (group)
+);
+
+ALTER TABLE user_group COMMENT 'User Group';
+
+
+
+CREATE TABLE user_information
 (
     `num`     INT            NOT NULL    AUTO_INCREMENT COMMENT 'User_Number', 
     `id`      VARCHAR(45)    NOT NULL    COMMENT 'User_ID', 
     `signup`  TIMESTAMP      NOT NULL    COMMENT 'Signup_date', 
+    `group`   INT            NULL        COMMENT 'User_Group', 
      PRIMARY KEY (num)
 );
 
-ALTER TABLE information COMMENT 'User Information';
+ALTER TABLE user_information COMMENT 'User Information';
 
 CREATE UNIQUE INDEX UQ_information_1
-    ON information(id);
+    ON user_information(id);
+
+ALTER TABLE user_information
+    ADD CONSTRAINT FK_user_information_group_user_group_group FOREIGN KEY (group)
+        REFERENCES user_group (group) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
-CREATE TABLE rawdata
+
+CREATE TABLE barcode_rawdata
 (
     `id`        INT            NOT NULL    AUTO_INCREMENT COMMENT 'Barcode_ID', 
     `raw`       VARCHAR(45)    NULL        COMMENT 'Barcode_raw', 
@@ -23,31 +40,80 @@ CREATE TABLE rawdata
      PRIMARY KEY (id)
 );
 
-ALTER TABLE rawdata COMMENT 'Barcode Rawdata';
+ALTER TABLE barcode_rawdata COMMENT 'Barcode Rawdata';
 
-ALTER TABLE rawdata
-    ADD CONSTRAINT FK_rawdata_user_num_information_num FOREIGN KEY (user_num)
-        REFERENCES information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE barcode_rawdata
+    ADD CONSTRAINT FK_barcode_rawdata_user_num_user_information_num FOREIGN KEY (user_num)
+        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
-CREATE TABLE barcoderait
+
+CREATE TABLE barcode_rait
 (
-    `num`       INT         NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
-    `raw_id`    INT         NULL        COMMENT 'Raw_ID', 
-    `user_num`  INT         NULL        COMMENT 'User_Number', 
-    `rait`      BIT         NULL        COMMENT 'Raw_Rait', 
-    `time`      DATETIME    NULL        COMMENT 'Date_Time', 
+    `num`       INT          NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
+    `raw_id`    INT          NULL        COMMENT 'Raw_ID', 
+    `user_num`  INT          NULL        COMMENT 'User_Number', 
+    `rait`      BIT          NULL        COMMENT 'Raw_Rait', 
+    `time`      TIMESTAMP    NULL        COMMENT 'Date_Time', 
      PRIMARY KEY (num)
 );
 
-ALTER TABLE barcoderait COMMENT 'Barcode Rait';
+ALTER TABLE barcode_rait COMMENT 'Barcode Rait';
 
-ALTER TABLE barcoderait
-    ADD CONSTRAINT FK_barcoderait_raw_id_rawdata_id FOREIGN KEY (raw_id)
-        REFERENCES rawdata (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE barcode_rait
+    ADD CONSTRAINT FK_barcode_rait_raw_id_barcode_rawdata_id FOREIGN KEY (raw_id)
+        REFERENCES barcode_rawdata (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE barcoderait
-    ADD CONSTRAINT FK_barcoderait_user_num_information_num FOREIGN KEY (user_num)
-        REFERENCES information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE barcode_rait
+    ADD CONSTRAINT FK_barcode_rait_user_num_user_information_num FOREIGN KEY (user_num)
+        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
+
+CREATE TABLE processed_data
+(
+    `id`        INT            NOT NULL    AUTO_INCREMENT COMMENT 'Barcode_ID', 
+    `raw_id`    INT            NULL        COMMENT 'Raw_ID', 
+    `user_num`  INT            NULL        COMMENT 'User_Number', 
+    `time`      TIMESTAMP      NULL        COMMENT 'Date_Time', 
+    `title`     VARCHAR(45)    NULL        COMMENT 'Barcode_title', 
+    `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
+    `good`      INT            NULL        COMMENT 'Rait_Good', 
+    `bad`       INT            NULL        COMMENT 'Rait_Bad', 
+     PRIMARY KEY (id)
+);
+
+ALTER TABLE processed_data COMMENT 'Processed Barcode Data';
+
+ALTER TABLE processed_data
+    ADD CONSTRAINT FK_processed_data_raw_id_barcode_rawdata_id FOREIGN KEY (raw_id)
+        REFERENCES barcode_rawdata (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE processed_data
+    ADD CONSTRAINT FK_processed_data_user_num_user_information_num FOREIGN KEY (user_num)
+        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+CREATE TABLE processed_data
+(
+    `id`        INT            NOT NULL    AUTO_INCREMENT COMMENT 'Barcode_ID', 
+    `raw_id`    INT            NULL        COMMENT 'Raw_ID', 
+    `user_num`  INT            NULL        COMMENT 'User_Number', 
+    `time`      TIMESTAMP      NULL        COMMENT 'Date_Time', 
+    `title`     VARCHAR(45)    NULL        COMMENT 'Barcode_title', 
+    `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
+    `good`      INT            NULL        COMMENT 'Rait_Good', 
+    `bad`       INT            NULL        COMMENT 'Rait_Bad', 
+     PRIMARY KEY (id)
+);
+
+ALTER TABLE processed_data COMMENT 'Processed Barcode Data';
+
+ALTER TABLE processed_data
+    ADD CONSTRAINT FK_processed_data_raw_id_barcode_rawdata_id FOREIGN KEY (raw_id)
+        REFERENCES barcode_rawdata (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE processed_data
+    ADD CONSTRAINT FK_processed_data_user_num_user_information_num FOREIGN KEY (user_num)
+        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
