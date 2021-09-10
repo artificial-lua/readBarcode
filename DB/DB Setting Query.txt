@@ -1,6 +1,8 @@
+# DB생성 및 사용
 CREATE DATABASE ReadBarcode;
 use ReadBarcode;
 
+# 유저그룹 생성
 CREATE TABLE user_group
 (
     `num`   INT            NOT NULL    AUTO_INCREMENT COMMENT 'User_Group', 
@@ -12,6 +14,7 @@ ALTER TABLE user_group COMMENT 'User Group';
 
 
 
+# 유저 정보 테이블 생성
 CREATE TABLE user_information
 (
     `num`     INT            NOT NULL    AUTO_INCREMENT COMMENT 'User_Number', 
@@ -33,6 +36,7 @@ ALTER TABLE user_information
 
 
 
+# 바코드 등록된 기본 데이터 테이블 생성
 CREATE TABLE barcode_rawdata
 (
     `id`        INT            NOT NULL    AUTO_INCREMENT COMMENT 'Barcode_ID', 
@@ -52,6 +56,7 @@ ALTER TABLE barcode_rawdata
 
 
 
+# rawdate에 대한 평가 테이블
 CREATE TABLE barcode_rait
 (
     `num`       INT          NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
@@ -74,6 +79,7 @@ ALTER TABLE barcode_rait
 
 
 
+# 처리된 데이터에 대한 테이블
 CREATE TABLE processed_data
 (
     `id`        INT            NOT NULL    AUTO_INCREMENT COMMENT 'Barcode_ID', 
@@ -99,6 +105,7 @@ ALTER TABLE processed_data
 
 
 
+# 처리된 데이터에 대한 평가
 CREATE TABLE processed_rait
 (
     `num`         INT          NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
@@ -120,13 +127,22 @@ ALTER TABLE processed_rait
         REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
+# 유저 그룹 1은 Admin
 INSERT INTO user_group
     (name)
 VALUES
     ('Admin');
 
 
+# 유저 그룹 2는 일반 유저
 INSERT INTO user_group
     (name)
 VALUES
     ('User');
+
+
+# 유저 그룹 3은 익병 유저
+INSERT INTO user_group
+    (name)
+VALUES
+    ('Unknown');
