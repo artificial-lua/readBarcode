@@ -21,7 +21,14 @@ app.get('/barcode/req/', function(req, res){
 })
 
 app.get('/condition/check', function(req, res){
-	res.send(db = require('./mariadb-connector').host(config['db']))
+	if (req['passwd'] == "1234"){
+		var respond = require('./mariadb-connector').host(config['db']);
+		res.send(respond);
+		console.log(respond);
+	}
+	else{
+		console.log("Wrong Password")
+	}
 })
 
 // 마지막으로, 포트로 열어줍니다.
