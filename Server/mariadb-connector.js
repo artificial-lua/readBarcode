@@ -16,7 +16,7 @@ function connection(json){
 }
 
 function condition(json){
-    var connection = connection(json);
+    var connection = host(json);
     result = connection.query(`SHOW DATABASES`, function(error, result){
         return result;
 	});
