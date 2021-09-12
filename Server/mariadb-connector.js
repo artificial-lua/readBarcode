@@ -14,3 +14,11 @@ function connection(json){
       });
     return connection
 }
+
+exports.condition = function(json){
+    var connection = connection(json);
+    result = connection.query(`SHOW DATABASES`, function(error, result){
+        return result;
+	});
+    return result
+}

@@ -5,6 +5,7 @@ const app = express()
 // 커스텀 모듈 - config decoder
 config = require('./config-decoder').open('./config.json')
 port = config['port']
+mysql = require('./mariadb-connector');
 
 // url에 따라 분리해줍니다.
 app.get('/barcode/req/', function(req, res){
@@ -14,7 +15,7 @@ app.get('/barcode/req/', function(req, res){
 	var date = new Date();
 	res.send(respond);
 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
-	db = require('./mariadb-connector').host(config['db'])
+	db = mysql.host(config['db'])
 	db.query(`SHOW DATABASES`, function(error, result){
 		console.log(result)
 	})
@@ -22,7 +23,7 @@ app.get('/barcode/req/', function(req, res){
 
 app.get('/condition/check', function(req, res){
 	if (req['passwd'] == "1234"){
-		var respond = require('./mariadb-connector').host(config['db']);
+		var respond = mysql.condition(config['db']);
 		res.send(respond);
 		console.log(respond);
 	}
