@@ -15,10 +15,12 @@ function connection(json){
     return connection
 }
 
-exports.condition = function(json){
+function condition(json){
     var connection = connection(json);
     result = connection.query(`SHOW DATABASES`, function(error, result){
         return result;
 	});
     return result
 }
+
+exports.condition = condition;
