@@ -22,15 +22,15 @@ app.get('/barcode/req/', function(req, res){
 })
 
 app.get('/condition/check', function(req, res){
-	if (req['passwd'] == "1234"){
+	if (req.query['passwd'] == "1234"){
 		var respond = mysql.condition(config['db']);
 		res.send(respond);
 		console.log(respond);
 	}
 	else{
 		console.log("Wrong Password")
-		console.log(req['passwd'])
-		res.send(req['passwd']);
+		console.log(req.query['passwd'])
+		res.send(req.query['passwd']);
 	}
 })
 
