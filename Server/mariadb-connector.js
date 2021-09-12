@@ -8,5 +8,5 @@ exports.host = function(json){
         password : json['passwd'],
         database : json['db']
       });
-    return pool
+    return connection
 }
