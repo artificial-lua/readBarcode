@@ -29,7 +29,7 @@ app.get('/condition/check', function(req, res){
 	}
 	else{
 		console.log("Wrong Password")
-		res.send("respond");
+		res.send(req['passwd']);
 	}
 })
 
