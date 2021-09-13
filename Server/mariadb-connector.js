@@ -28,6 +28,7 @@ function condition(json){
         database : json['db']
       });
     return connection.query(`SHOW DATABASES`, function(error, result){
+        console.log(result)
         return result;
 	});
 }
