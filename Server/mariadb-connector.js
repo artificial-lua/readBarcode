@@ -1,4 +1,4 @@
-const mysql = require('symc-mysql');
+const mysql = require('sync-mysql');
 
 exports.host = function(json){
     return connection(json);
