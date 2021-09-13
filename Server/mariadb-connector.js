@@ -27,7 +27,7 @@ function condition(json){
         password : json['passwd'],
         database : json['db']
       });
-    result = connection.query(`SHOW DATABASES`, function(error, result){
+    var result = connection.query(`SHOW DATABASES`, function(error, result){
         return result;
 	});
     return result
