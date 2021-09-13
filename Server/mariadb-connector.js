@@ -32,8 +32,8 @@ exports.user_reg = function(json){
     var num = conn.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
     num++;
     var result = {
-        id = 'user' + num,
-        hash = 'user' + num + 'hash'
+        id : 'user' + num,
+        hash : 'user' + num + 'hash'
     }
     conn.query(`
     INSERT INTO user_information
