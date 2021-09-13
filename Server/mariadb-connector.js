@@ -8,7 +8,7 @@ function connection(json){
         password : json['passwd'],
         database : json['db']
     });
-    return result
+    return connection
 }
 
 exports.connection = function(json){
