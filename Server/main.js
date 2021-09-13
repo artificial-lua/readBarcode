@@ -4,12 +4,13 @@ const app = express()
 
 // 커스텀 모듈 - config decoder
 config = require('./config-decoder').open('./config.json')
+db = config['db'];
 port = config['port']
 mysql = require('./mariadb-connector');
 
 // url에 따라 분리해줍니다.
 app.get('/barcode/req/', function(req, res){
-	var respond = mysql.host(config['db']);
+	var respond = mysql.host(db);
     console.log(respond);
 	const ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
 	var date = new Date();
@@ -19,7 +20,7 @@ app.get('/barcode/req/', function(req, res){
 
 app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
-		res.send(mysql.condition(json));
+		res.send(mysql.condition(db));
 	}
 	else{
 		console.log("Wrong Password")
