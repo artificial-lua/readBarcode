@@ -29,4 +29,4 @@ function condition(json){
     return result
 }
 
-exports.condition = condition;
+exports.condition = condition(json);
