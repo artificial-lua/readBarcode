@@ -22,7 +22,7 @@ app.get('/barcode/req/', function(req, res){
 })
 
 app.get('/condition/check', function(req, res){
-	if (req.query['passwd'] == "1234"){
+	if (req.query['passwd'] == config['admin']['password']){
 		var respond = mysql.condition(config['db']);
 		res.send("OK");
 		console.log(respond);
