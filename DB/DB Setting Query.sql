@@ -1,5 +1,5 @@
 # 전처리
-DELETE DATABASE ReadBarcode;
+DROP DATABASE ReadBarcode;
 
 # DB생성 및 사용
 CREATE DATABASE ReadBarcode;
