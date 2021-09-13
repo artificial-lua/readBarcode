@@ -15,6 +15,10 @@ function connection(json){
     return connection
 }
 
+exports.condition = function (json){
+    return condition(json)
+}
+
 function condition(json){
     var connection = mysql.createConnection({
         host     : json['host'],
@@ -28,5 +32,3 @@ function condition(json){
 	});
     return result
 }
-
-exports.condition = condition(json);
