@@ -28,5 +28,6 @@ exports.condition = function(json){
 
 exports.user_reg = function(json){
     var conn = connection(json);
-    console.log(conn.query('SELECT count(*) FROM user_information;'));
+    var result = conn.query('SELECT count(*) FROM user_information;')
+    return result[0]['cont(*)'];
 }
