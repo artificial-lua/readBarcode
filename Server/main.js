@@ -9,13 +9,17 @@ port = config['port']
 mysql = require('./mariadb-connector');
 
 // url에 따라 분리해줍니다.
-app.get('/barcode/req/', function(req, res){
-	var respond = mysql.host(db);
-    console.log(respond);
-	const ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
-	var date = new Date();
-	res.send(respond);
-	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
+// app.get('/barcode/req/', function(req, res){
+// 	var respond = mysql.host(db);
+//     console.log(respond);
+// 	const ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
+// 	var date = new Date();
+// 	res.send(respond);
+// 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
+// })
+
+app.get('/user/reg/', function(req, res) {
+	res.send('no')
 })
 
 app.get('/condition/check', function(req, res){

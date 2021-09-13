@@ -25,3 +25,8 @@ exports.condition = function(json){
 
     return connection(json).query('show databases;')
 }
+
+exports.user_reg = function(json){
+    var conn = connection(json);
+    console.log(conn.query('SELECT count(*) FROM user_information;'));
+}
