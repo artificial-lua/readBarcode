@@ -1,5 +1,6 @@
 const mysql = require('sync-mysql');
 const crypto = require('crypto');
+const { query } = require('express');
 
 function connection(json){
     var connection = new mysql({
@@ -35,17 +36,17 @@ exports.user_reg = function(json){
         id : 'user' + num,
         hash : 'user' + num + 'hash'
     }
-    conn.query(`
-    INSERT INTO user_information
+    query = `INSERT INTO user_information
     (id, 
     signup, 
     group, 
     hash)
 VALUES
-    ('` + result['id'] + `', 
+    ('id 1', 
     NOW(), 
-    '2', 
-    '` + result['hash'] + `');
-    `);
+    1, 
+    'hash 1');
+    `
+    conn.query(query);
     return result;
 }
