@@ -5,7 +5,7 @@ exports.host = function(json){
 }
 
 function connection(json){
-    var connection = mysql.createConnection({
+    var connection = new mysql({
         host     : json['host'],
         port     : json['port'],
         user     : json['user'],
