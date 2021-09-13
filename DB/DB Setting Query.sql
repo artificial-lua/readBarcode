@@ -141,7 +141,7 @@ VALUES
     ('User');
 
 
-# 유저 그룹 3은 익병 유저
+# 유저 그룹 3은 익명 유저
 INSERT INTO user_group
     (name)
 VALUES
