@@ -1,9 +1,5 @@
 const mysql = require('sync-mysql');
 
-exports.host = function(json){
-    return connection(json);
-}
-
 function connection(json){
     var connection = new mysql({
         host     : json['host'],
@@ -12,7 +8,20 @@ function connection(json){
         password : json['passwd'],
         database : json['db']
     });
-    
-    let result = connection.query('show databases;');
     return result
+}
+
+exports.connection = function(json){
+
+    return connection(json);
+}
+
+exports.host = function(json){
+
+    return connection(json);
+}
+
+exports.condition = function(json){
+
+    return connection(json).query('show databases;')
 }

@@ -19,7 +19,7 @@ app.get('/barcode/req/', function(req, res){
 
 app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
-		res.send("OK");
+		res.send(mysql.condition(json));
 	}
 	else{
 		console.log("Wrong Password")
