@@ -32,7 +32,7 @@ app.get('/user/reg/', function(req, res) {
 app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
 		var result = mysql.condition(db);
-		res.send(result);
+		res.send("ok");
 	}
 	else{
 		console.log("Wrong Password")

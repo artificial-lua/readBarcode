@@ -36,9 +36,7 @@ exports.user_reg = function(json){
         id : 'user' + num,
         hash : 'user' + num + 'hash'
     }
-    console.log(result)
     var query = `INSERT INTO user_information VALUES (DEFAULT, '` + result['id'] + `', NOW(), 3, '` + result['hash'] + `');`
-    console.log(query)
     conn.query(query);
     return result;
 }
