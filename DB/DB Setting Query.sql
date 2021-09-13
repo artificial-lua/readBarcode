@@ -10,10 +10,31 @@ CREATE TABLE user_group
 (
     `num`   INT            NOT NULL    AUTO_INCREMENT COMMENT 'User_Group', 
     `name`  VARCHAR(45)    NULL        COMMENT 'Group_Name', 
-     PRIMARY KEY (num)
+    CONSTRAINT PK_user_group PRIMARY KEY (num)
 );
 
 ALTER TABLE user_group COMMENT 'User Group';
+
+# 유저 그룹 1은 Admin
+INSERT INTO user_group
+    (name)
+VALUES
+    ('Admin');
+
+
+# 유저 그룹 2는 일반 유저
+INSERT INTO user_group
+    (name)
+VALUES
+    ('User');
+
+
+# 유저 그룹 3은 익명 유저
+INSERT INTO user_group
+    (name)
+VALUES
+    ('Unknown');
+
 
 
 
@@ -25,7 +46,7 @@ CREATE TABLE user_information
     `signup`  TIMESTAMP      NOT NULL    COMMENT 'Signup_date', 
     `group`   INT            NULL        COMMENT 'User_Group', 
     `hash`    VARCHAR(45)    NULL        COMMENT 'User_Hash', 
-     PRIMARY KEY (num)
+    CONSTRAINT PK_user_information PRIMARY KEY (num)
 );
 
 ALTER TABLE user_information COMMENT 'User Information';
@@ -48,7 +69,7 @@ CREATE TABLE barcode_rawdata
     `time`      TIMESTAMP      NULL        COMMENT 'Date_Time', 
     `title`     VARCHAR(45)    NULL        COMMENT 'Barcode_title', 
     `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
-     PRIMARY KEY (id)
+    CONSTRAINT PK_barcode_rawdata PRIMARY KEY (id)
 );
 
 ALTER TABLE barcode_rawdata COMMENT 'Barcode Rawdata';
@@ -67,7 +88,7 @@ CREATE TABLE barcode_rait
     `user_num`  INT          NULL        COMMENT 'User_Number', 
     `rait`      BIT          NULL        COMMENT 'Raw_Rait', 
     `time`      TIMESTAMP    NULL        COMMENT 'Date_Time', 
-     PRIMARY KEY (num)
+    CONSTRAINT PK_barcode_rait PRIMARY KEY (num)
 );
 
 ALTER TABLE barcode_rait COMMENT 'Barcode Rait';
@@ -93,7 +114,7 @@ CREATE TABLE processed_data
     `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
     `good`      INT            NULL        COMMENT 'Rait_Good', 
     `bad`       INT            NULL        COMMENT 'Rait_Bad', 
-     PRIMARY KEY (id)
+    CONSTRAINT PK_processed_data PRIMARY KEY (id)
 );
 
 ALTER TABLE processed_data COMMENT 'Processed Barcode Data';
@@ -116,7 +137,7 @@ CREATE TABLE processed_rait
     `user_num`    INT          NULL        COMMENT 'User_Number', 
     `rait`        BIT          NULL        COMMENT 'Rait', 
     `time`        TIMESTAMP    NULL        COMMENT 'Date_Time', 
-     PRIMARY KEY (num)
+    CONSTRAINT PK_processed_rait PRIMARY KEY (num)
 );
 
 ALTER TABLE processed_rait COMMENT 'Processed Barcode Rait';
@@ -128,24 +149,3 @@ ALTER TABLE processed_rait
 ALTER TABLE processed_rait
     ADD CONSTRAINT FK_processed_rait_user_num_user_information_num FOREIGN KEY (user_num)
         REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
-# 유저 그룹 1은 Admin
-INSERT INTO user_group
-    (name)
-VALUES
-    ('Admin');
-
-
-# 유저 그룹 2는 일반 유저
-INSERT INTO user_group
-    (name)
-VALUES
-    ('User');
-
-
-# 유저 그룹 3은 익명 유저
-INSERT INTO user_group
-    (name)
-VALUES
-    ('Unknown');
