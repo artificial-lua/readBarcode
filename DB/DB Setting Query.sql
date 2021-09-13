@@ -46,17 +46,14 @@ CREATE TABLE user_information
     `signup`  TIMESTAMP      NOT NULL    COMMENT 'Signup_date', 
     `group`   INT            NULL        COMMENT 'User_Group', 
     `hash`    VARCHAR(45)    NULL        COMMENT 'User_Hash', 
-    CONSTRAINT PK_user_information PRIMARY KEY (num)
+    CONSTRAINT PK_user_information PRIMARY KEY (num),
+    FOREIGN KEY (`group`) REFERENCES `user_group` (`num`)
 );
 
 ALTER TABLE user_information COMMENT 'User Information';
 
 CREATE UNIQUE INDEX UQ_information_1
     ON user_information(id);
-
-ALTER TABLE user_information
-    ADD CONSTRAINT FK_user_information_group_user_group_num FOREIGN KEY (group)
-        REFERENCES user_group (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 
@@ -69,14 +66,11 @@ CREATE TABLE barcode_rawdata
     `time`      TIMESTAMP      NULL        COMMENT 'Date_Time', 
     `title`     VARCHAR(45)    NULL        COMMENT 'Barcode_title', 
     `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
-    CONSTRAINT PK_barcode_rawdata PRIMARY KEY (id)
+    CONSTRAINT PK_barcode_rawdata PRIMARY KEY (id),
+    FOREIGN KEY (`user_num`) REFERENCES `user_information` (`num`)
 );
 
 ALTER TABLE barcode_rawdata COMMENT 'Barcode Rawdata';
-
-ALTER TABLE barcode_rawdata
-    ADD CONSTRAINT FK_barcode_rawdata_user_num_user_information_num FOREIGN KEY (user_num)
-        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 
@@ -88,18 +82,12 @@ CREATE TABLE barcode_rait
     `user_num`  INT          NULL        COMMENT 'User_Number', 
     `rait`      BIT          NULL        COMMENT 'Raw_Rait', 
     `time`      TIMESTAMP    NULL        COMMENT 'Date_Time', 
-    CONSTRAINT PK_barcode_rait PRIMARY KEY (num)
+    CONSTRAINT PK_barcode_rait PRIMARY KEY (num),
+    FOREIGN KEY (`raw_id`) REFERENCES `barcode_rawdata` (`id`),
+    FOREIGN KEY (`user_num`) REFERENCES `user_information` (`num`)
 );
 
 ALTER TABLE barcode_rait COMMENT 'Barcode Rait';
-
-ALTER TABLE barcode_rait
-    ADD CONSTRAINT FK_barcode_rait_raw_id_barcode_rawdata_id FOREIGN KEY (raw_id)
-        REFERENCES barcode_rawdata (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE barcode_rait
-    ADD CONSTRAINT FK_barcode_rait_user_num_user_information_num FOREIGN KEY (user_num)
-        REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 
