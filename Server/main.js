@@ -19,12 +19,13 @@ mysql = require('./mariadb-connector');
 // })
 
 app.get('/user/reg/', function(req, res) {
+	var result = mysql.user_reg(db);
 	res.send('no')
 })
 
 app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
-		var result = mysql.condition(db)
+		var result = mysql.condition(db);
 		res.send(result);
 	}
 	else{
