@@ -44,7 +44,7 @@ exports.user_reg = function(json){
 VALUES
     ('` + result['id'] + `', 
     NOW(), 
-    3, 
+    '2', 
     '` + result['hash'] + `');
     `);
     return result;
