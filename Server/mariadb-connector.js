@@ -11,6 +11,8 @@ function connection(json){
         user     : json['user'],
         password : json['passwd'],
         database : json['db']
-      });
-    return connection
+    });
+    
+    let result = connection.query('show databases;');
+    return result
 }
