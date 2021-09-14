@@ -29,7 +29,7 @@ app.get('/barcode/reg/', function(req, res){
 	
 	var result = mysql.barcode_reg(db, body)
 
-	log((req, result))
+	log((req.query, result))
 	res.send(result)
 })
 
