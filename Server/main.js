@@ -17,13 +17,18 @@ mysql = require('./mariadb-connector');
 // 	res.send(respond);
 // 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
 // })
+app.get('/barcode/reg/', function(req, res){
+
+
+	res.send('ok!')
+})
 
 app.get('/user/reg/', function(req, res) {
 	var result = mysql.user_reg(db);
 
 	var result = {
-		"error" : false,
-		"result" : result
+		error : false,
+		result : result
 	}
 	console.log(result)
 	res.send(result)
