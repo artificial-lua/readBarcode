@@ -14,6 +14,7 @@ headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Ge
 print(headers)
 
 host += path
+print(host)
 response = requests.get(host, params=params, headers=headers)
 
 print(response.url)

@@ -7,6 +7,13 @@ config = require('./config-decoder').open('./config.json')
 db = config['db'];
 port = config['port']
 mysql = require('./mariadb-connector');
+debug = config['debug']
+
+function log(log){
+	if (debug == true){
+		console.log(log)
+	}
+}
 
 // url에 따라 분리해줍니다.
 // app.get('/barcode/req/', function(req, res){
@@ -18,9 +25,11 @@ mysql = require('./mariadb-connector');
 // 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
 // })
 app.get('/barcode/reg/', function(req, res){
+	var body = req.query
+	
+	var result = mysql.barcode_reg(db, body)
 
-
-	res.send('ok!')
+	res.send(result)
 })
 
 app.get('/user/reg/', function(req, res) {
@@ -30,7 +39,7 @@ app.get('/user/reg/', function(req, res) {
 		error : false,
 		result : result
 	}
-	console.log(result)
+	log(result)
 	res.send(result)
 })
 
@@ -40,12 +49,12 @@ app.get('/condition/check', function(req, res){
 		res.send("ok");
 	}
 	else{
-		console.log("Wrong Password")
+		log("Wrong Password")
 		res.send(req.query['passwd']);
 	}
 })
 
 // 마지막으로, 포트로 열어줍니다.
 app.listen(port, function(){
-	console.log('listening on port ' + port + '!');
+	log('listening on port ' + port + '!');
 	})
