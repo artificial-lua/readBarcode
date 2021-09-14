@@ -50,10 +50,16 @@ app.get('/condition/check', function(req, res){
 		log(result)
 		var comp = { Database: db['db']}
 		log(comp)
-		if (result.includes(comp))
-			res.send("ok");
-		else
-			res.send("no ok")
+
+		for(i = 0; i < result.lenght; i++){
+			log(result[i])
+			if(result[i] == comp)
+			{
+				res.send("ok")
+				break;
+			}
+		}
+		res.send("no ok")
 	}
 	else{
 		log("Wrong Password")
