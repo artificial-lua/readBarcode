@@ -49,6 +49,7 @@ app.get('/condition/check', function(req, res){
 		var result = mysql.condition(db);
 		log(result)
 		var comp = { Database: db['db']}
+		log(comp)
 		if (comp in result)
 			res.send("ok");
 		else
