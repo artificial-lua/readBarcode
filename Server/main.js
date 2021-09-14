@@ -50,7 +50,7 @@ app.get('/condition/check', function(req, res){
 		log(result)
 		var comp = { Database: db['db']}
 		log(comp)
-		if (comp in result)
+		if (result.includes(comp))
 			res.send("ok");
 		else
 			res.send("no ok")
