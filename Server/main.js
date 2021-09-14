@@ -48,7 +48,8 @@ app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
 		var result = mysql.condition(db);
 		log(result)
-		if ({ Database: db['db']} in result)
+		var comp = { Database: db['db']}
+		if (comp in result)
 			res.send("ok");
 		else
 			res.send("no ok")
