@@ -47,6 +47,7 @@ app.get('/user/reg/', function(req, res) {
 app.get('/condition/check', function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
 		var result = mysql.condition(db);
+		log(result)
 		res.send("ok");
 	}
 	else{
