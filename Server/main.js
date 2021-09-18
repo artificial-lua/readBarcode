@@ -14,6 +14,16 @@ function log(log){
 		console.log(log)
 	}
 }
+/*
+구현해야 하는 동작
+유저 - 등록 / 조회 / 정보수정
+
+바코드 data - 등록, 조회
+바코드 Raw Rait - 등록, 특정 raw의 Rait 평균, 수정 (유저 개인당 Rait는 1개로 배정하므로, 유저 개별 수정이 있어야함)
+└ 바코드 data와 RawRait는 가공된 테이블에 대하여도 동일하게 적용
+
+
+*/
 
 // url에 따라 분리해줍니다.
 // app.get('/barcode/req/', function(req, res){
