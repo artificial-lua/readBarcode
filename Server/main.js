@@ -8,6 +8,7 @@ db = config['db'];
 port = config['port']
 mysql = require('./mariadb-connector');
 debug = config['debug']
+url = config['url']
 
 function log(log){
 	if (debug == true){
@@ -34,16 +35,9 @@ function log(log){
 // 	res.send(respond);
 // 	console.log('[' + date + ']::/barcode/req:' + ip + JSON.stringify(respond));
 // })
-app.get('/barcode/reg/', function(req, res){
-	var body = req.query
-	
-	var result = mysql.barcode_reg(db, body)
 
-	log(req.query.toString() + result.toString())
-	res.send(result)
-})
-
-app.get('/user/reg/', function(req, res) {
+// 유저
+app.get(url['user-reg'], function(req, res) {
 	var result = mysql.user_reg(db);
 
 	var result = {
@@ -54,7 +48,16 @@ app.get('/user/reg/', function(req, res) {
 	res.send(result)
 })
 
-app.get('/condition/check', function(req, res){
+app.get(url['barcode-reg'], function(req, res){
+	var body = req.query
+	
+	var result = mysql.barcode_reg(db, body)
+
+	log(req.query.toString() + result.toString())
+	res.send(result)
+})
+
+app.get(url['condition'], function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
 		var result = mysql.condition(db);
 		log(result)
