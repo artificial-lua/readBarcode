@@ -13,6 +13,11 @@ function connection(json){
     return connection
 }
 
+exports.host = function(json){
+
+    return mysql.connection(json);
+}
+
 exports.connection = function(json){
 
     return connection(json);
