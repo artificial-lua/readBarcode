@@ -19,11 +19,15 @@ while True:
 
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
     print(headers)
+    url = host + path[ch - 1]
+    print(url)
+    if len(params) >= ch:
+        response = requests.get(url, params=params[ch - 1], headers=headers)
+    else:
+        response = requests.get(url, headers=headers)
 
-    host += path[ch - 1]
-    print(host)
-    response = requests.get(host, params=params[ch - 1], headers=headers)
-
+    print()
     print(response.url)
-
     print(response.text)
+    print()
+    input("Enter to reset")
