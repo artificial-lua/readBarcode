@@ -6,7 +6,7 @@ const app = express()
 config = require('./config-decoder').open('./config.json')
 db = config['db'];
 port = config['port']
-mysql = require('./mariadb-connector');
+mysql = require('./mariadb-parser');
 debug = config['debug']
 url = config['url']
 
