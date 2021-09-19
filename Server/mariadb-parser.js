@@ -2,7 +2,7 @@ mysql = require('./mariadb-connector');
 
 
 exports.condition = function(json){
-    var conn = mysql.connection(json)
+    var conn = mysql.host(json)
 
     return conn.query('show databases;')
 }
