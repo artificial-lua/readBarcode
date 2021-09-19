@@ -2,8 +2,9 @@ mysql = require('./mariadb-connector');
 
 
 exports.condition = function(json){
+    conn = mysql.connection(json)
 
-    return mysql.host(json).query('show databases;')
+    return conn.query('show databases;')
 }
 
 exports.barcode_reg = function(json, body){
