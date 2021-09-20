@@ -45,7 +45,7 @@ CREATE TABLE user_information
     `id`      VARCHAR(45)    NOT NULL    COMMENT 'User_ID', 
     `signup`  TIMESTAMP      NOT NULL    COMMENT 'Signup_date', 
     `group`   INT            NULL        COMMENT 'User_Group', 
-    `hash`    VARCHAR(64)    NULL        COMMENT 'User_Hash', 
+    `hash`    VARCHAR(256)    NULL        COMMENT 'User_Hash', 
     CONSTRAINT PK_user_information PRIMARY KEY (num),
     FOREIGN KEY (`group`) REFERENCES `user_group` (`num`)
 );
