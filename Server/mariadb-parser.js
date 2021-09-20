@@ -63,11 +63,14 @@ function user_search(mysql, data){
 }
 
 exports.user_edit = function(mysql, data, blacklist){
+    var result;
     for (const str of blacklist){
-        console.log("check " + str + " in " + data['edit-id'])
         if (data['edit-id'].includes(str)){
-            console.log(data['edit-id'])
-            return "error"
+            result = {
+                error : true,
+                message : data['edit-id'] + "는 id로 사용할 수 없는 단어를 포함하고 있습니다."
+            }
+            return result
         }
     }
     var value = user_search(mysql, data)
