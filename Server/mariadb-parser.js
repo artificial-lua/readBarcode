@@ -34,7 +34,7 @@ exports.user_reg = function(mysql, data){
 
 exports.user_search = function(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
-    console.log(num)
+    console.log(value)
     var result;
     if (num != []){
         num = value[0].num
