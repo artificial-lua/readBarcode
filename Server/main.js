@@ -93,6 +93,8 @@ app.get(url['barcode-reg'], function(req, res){
 	var result = parser.barcode_reg(mysql, body)
 
 	log(req.query.toString() + result.toString())
+
+	log("is ABC in AABCC ? " + "AABCC".includes("ABC"))
 	res.send(result)
 })
 // 바코드 조회

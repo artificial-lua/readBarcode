@@ -68,7 +68,7 @@ exports.user_edit = function(mysql, data, blacklist){
     // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
         console.log("check " + str + " in " + data['edit-id'])
-        if (data['edit-id'].includes(str.toString())){
+        if (data['edit-id'].includes(str)){
             result = {
                 error : true,
                 message : data['edit-id'] + "는 id로 사용할 수 없는 단어를 포함하고 있습니다."
