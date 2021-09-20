@@ -27,9 +27,8 @@ while True:
             response = requests.get(url, params=params[ch - 1], headers=headers)
         else:
             response = requests.get(url, headers=headers)
-
-        print()
         print(response.url)
+        print()
         print(response.text)
         print()
     input("Enter to reset")

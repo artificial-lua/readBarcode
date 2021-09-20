@@ -49,7 +49,18 @@ app.get(url['user-reg'], function(req, res) {
 	log(result)
 	res.send(result)
 })
-// 유저 조회
+/* 유저 조회
+{
+	id : 조회할 유저 아이디
+	password : 유저의 password
+} =>
+id로 검색하여 password 리턴받음
+해당 password와 hash를 비교함
+=> {
+	error : true/false
+	message : "correct user!" / "incorrect user"
+}
+*/
 app.get(url['user-search'], function(req, res) {
 	var data = req.query
 	log(data)
