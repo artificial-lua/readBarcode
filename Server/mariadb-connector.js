@@ -1,6 +1,4 @@
 const mysql = require('sync-mysql');
-const crypto = require('crypto');
-const { query } = require('express');
 
 function connection(json){
     var connection = new mysql({
@@ -11,11 +9,6 @@ function connection(json){
         database : json['db']
     });
     return connection
-}
-
-exports.host = function(json){
-
-    return mysql.connection(json);
 }
 
 exports.connection = function(json){

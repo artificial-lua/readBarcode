@@ -1,6 +1,3 @@
-mysql = require('./mariadb-connector');
-
-
 exports.condition = function(json){
     mysql = require('./mariadb-connector');
     var conn = mysql.connection(json)
@@ -9,12 +6,14 @@ exports.condition = function(json){
 }
 
 exports.barcode_reg = function(json, body){
+    mysql = require('./mariadb-connector');
     var conn = mysql.connection(json);
 
     return "ok"
 }
 
 exports.user_reg = function(json){
+    mysql = require('./mariadb-connector');
     var conn = mysql.connection(json);
     var num = conn.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
     num++;
