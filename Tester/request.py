@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 f = open('Tester/config.json', 'rt', encoding='UTF-8')
 

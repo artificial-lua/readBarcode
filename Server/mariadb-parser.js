@@ -35,6 +35,20 @@ exports.user_reg = function(mysql, data){
 exports.user_search = function(mysql, data){
     var num = mysql.query('Select num from user_information where id="' + data['id'] + '";')
     console.log(num)
+    var result;
+    if (num.lenght() == 1){
+        num = num[0].num
+        num = num + data['password'] + 'hash';
+        var hash = crypto.createHash('sha512').update(num).digest('base64')
+        result = mysql.query('Select * from user_information where id="' + data['id'] + '" and hash="' + hash + '";');
+        console.log(result)
+    }
+    else{
+        result = {
+            error : true,
+            message : "no match"
+        }
+    }
 
-    return "temp user search"
+    return result
 }
