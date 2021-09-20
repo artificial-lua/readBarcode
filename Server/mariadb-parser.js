@@ -64,7 +64,10 @@ function user_search(mysql, data){
 
 exports.user_edit = function(mysql, data, blacklist){
     var result;
+
+    // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
+        console.log("check " + str + " in " + data['edit-id'])
         if (data['edit-id'].includes(str)){
             result = {
                 error : true,
@@ -73,6 +76,8 @@ exports.user_edit = function(mysql, data, blacklist){
             return result
         }
     }
+
+    // DB 내 확인
     var value = user_search(mysql, data)
     if (value.error == false){
         
