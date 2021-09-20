@@ -40,6 +40,7 @@ exports.user_search = function(mysql, data){
         num = num[0].num
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
+        console.log(hash)
         result = mysql.query('Select * from user_information where id="' + data['id'] + '" and hash="' + hash + '";');
         console.log(result)
     }
