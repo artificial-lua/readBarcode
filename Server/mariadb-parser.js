@@ -32,7 +32,8 @@ exports.user_reg = function(mysql, data){
     return result;
 }
 
-exports.user_search = function(mysql, data){
+exports.user_search = user_search(mysql, data)
+function user_search(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     var result;
     if (value != []){
@@ -59,4 +60,8 @@ exports.user_search = function(mysql, data){
     }
 
     return result
+}
+
+exports.user_edit = function(mysql, data){
+
 }
