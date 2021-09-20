@@ -62,12 +62,12 @@ function user_search(mysql, data){
     return result
 }
 
-exports.user_edit = function(mysql, data){
-    console.log(data['edit-id'])
-    if(data['edit-id'].includes("admin") || data['edit-id'].includes("Admin") || data['edit-id'].includes("user") || data['edit-id'].includes("User"))
-    {
-        console.log(data['edit-id'])
-        return "error"
+exports.user_edit = function(mysql, data, blacklist){
+    for (const str in blacklist){
+        if (data['edit-id'].includes(str)){
+            console.log(data['edit-id'])
+            return "error"
+        }
     }
     var value = user_search(mysql, data)
     if (value.error == false){

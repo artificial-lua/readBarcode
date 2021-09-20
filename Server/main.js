@@ -10,6 +10,7 @@ mysql = require('./mariadb-connector').connection(db);
 parser = require('./mariadb-parser');
 debug = config['debug']
 url = config['url']
+blacklist = config['black-list']
 
 function log(log){
 	if (debug == true){
@@ -78,10 +79,10 @@ app.get(url['user-search'], function(req, res) {
 */
 app.get(url['user-edit'], function(req, res) {
 	var data = req.query
-	var result = parser.user_edit(mysql, data)
+	var result = parser.user_edit(mysql, data, blacklist)
 	log(result)
 
-	res.send("temp user edit")
+	res.send(result)
 })
 
 // 바코드
