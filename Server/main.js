@@ -27,7 +27,17 @@ function log(log){
 
 
 // 유저
-// 유저 등록
+/* 유저 등록
+{
+	password : 평문 또는 암호화된 클라이언트에서 저장될 Password
+} => 
+평문 password를 Hash로 DB에 저장하며 유저 생성
+리턴값은 해당 유저 name
+=> {
+	id : 유저 id 평문
+	password : 저장된 Password 리턴 ( 비교용 )
+}
+*/
 app.get(url['user-reg'], function(req, res) {
 	var result = parser.user_reg(mysql);
 
@@ -68,12 +78,13 @@ app.get(url['barcode-rait'], function(req, res){
 })
 
 
-// 서버 컨디션 체크
+/*  서버 컨디션 체크
+{
+	password: 컨디션 체크를 하기 위한 Password
+} => "ok" or String
+*/
 app.get(url['condition'], function(req, res){
-	if (req.query['passwd'] == config['admin']['password']){
-		var result = parser.condition(mysql);
-		log(result)
-
+	if (req.query['password'] == config['admin']['password']){
 		res.send("ok")
 	}
 	else{
