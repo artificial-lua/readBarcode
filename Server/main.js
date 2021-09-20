@@ -6,7 +6,8 @@ const app = express()
 config = require('./config-decoder').open('./config.json')
 db = config['db'];
 port = config['port']
-mysql = require('./mariadb-parser');
+mysql = require('./mariadb-connector').connection(db);
+parser = require('./mariadb-parser');
 debug = config['debug']
 url = config['url']
 
@@ -28,7 +29,7 @@ function log(log){
 // 유저
 // 유저 등록
 app.get(url['user-reg'], function(req, res) {
-	var result = mysql.user_reg(db);
+	var result = parser.user_reg(mysql);
 
 	var result = {
 		error : false,
@@ -52,7 +53,7 @@ app.get(url['user-edit'], function(req, res) {
 app.get(url['barcode-reg'], function(req, res){
 	var body = req.query
 	
-	var result = mysql.barcode_reg(db, body)
+	var result = parser.barcode_reg(mysql, body)
 
 	log(req.query.toString() + result.toString())
 	res.send(result)
@@ -70,7 +71,7 @@ app.get(url['barcode-rait'], function(req, res){
 // 서버 컨디션 체크
 app.get(url['condition'], function(req, res){
 	if (req.query['passwd'] == config['admin']['password']){
-		var result = mysql.condition(db);
+		var result = parser.condition(mysql);
 		log(result)
 
 		res.send("ok")
