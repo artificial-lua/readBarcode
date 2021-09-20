@@ -32,7 +32,8 @@ exports.user_reg = function(mysql, data){
 }
 
 exports.user_search = function(mysql, data){
-    
+    var num = mysql.query('Select num from user_information;')
+    console.log(num)
 
     return "temp user search"
 }
