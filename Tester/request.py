@@ -15,19 +15,20 @@ while True:
         print("%2d::[%s]"%(i + 1, path[i]))
 
     print()
-    ch = int(input(">>"))
+    ch = input(">>")
+    if (ch.isdigit()):
+        ch = int(ch)
+        headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
+        print(headers)
+        url = host + path[ch - 1]
+        print(url)
+        if len(params) >= ch:
+            response = requests.get(url, params=params[ch - 1], headers=headers)
+        else:
+            response = requests.get(url, headers=headers)
 
-    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
-    print(headers)
-    url = host + path[ch - 1]
-    print(url)
-    if len(params) >= ch:
-        response = requests.get(url, params=params[ch - 1], headers=headers)
-    else:
-        response = requests.get(url, headers=headers)
-
-    print()
-    print(response.url)
-    print(response.text)
-    print()
+        print()
+        print(response.url)
+        print(response.text)
+        print()
     input("Enter to reset")

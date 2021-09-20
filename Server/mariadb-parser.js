@@ -17,6 +17,22 @@ exports.user_reg = function(mysql, data){
         password : data['password']
     }
     var query = `INSERT INTO user_information VALUES (DEFAULT, '` + result['id'] + `', NOW(), 3, '` + result['hash'] + `');`;
-    mysql.query(query);
+    try {
+        mysql.query(query);
+        result = {
+            error : false,
+            result : result
+        }
+    } catch (error) {
+        result = {
+            error : true
+        }
+    }
     return result;
+}
+
+exports.user_search = function(mysql, data){
+    
+
+    return "temp user search"
 }

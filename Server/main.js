@@ -45,16 +45,12 @@ app.get(url['user-reg'], function(req, res) {
 	var data = req.query
 
 	var result = parser.user_reg(mysql, data);
-
-	var result = {
-		error : false,
-		result : result
-	}
 	log(result)
 	res.send(result)
 })
 // 유저 조회
 app.get(url['user-search'], function(req, res) {
+
 
 	res.send("temp user search")
 })
