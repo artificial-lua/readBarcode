@@ -63,8 +63,8 @@ function user_search(mysql, data){
 }
 
 exports.user_edit = function(mysql, data, blacklist){
-    console.log(blacklist)
     for (const str in blacklist){
+        console.log("check " + str + " in " + data['edit-id'])
         if (data['edit-id'].includes(str)){
             console.log(data['edit-id'])
             return "error"
