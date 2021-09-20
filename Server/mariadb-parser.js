@@ -64,7 +64,7 @@ function user_search(mysql, data){
 
 exports.user_edit = function(mysql, data){
     console.log(data['edit-id'])
-    if(data['edit-id'].includes("admin"||"user"))
+    if(data['edit-id'].includes("admin") || data['edit-id'].includes("Admin") || data['edit-id'].includes("user") || data['edit-id'].includes("User"))
     {
         console.log(data['edit-id'])
         return "error"
