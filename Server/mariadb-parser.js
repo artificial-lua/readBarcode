@@ -41,7 +41,7 @@ exports.user_search = function(mysql, data){
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
         console.log(hash)
-        console.log(num[0]['hash'])
+        console.log(value[0]['hash'])
         if (value[0].hash == hash){
             result = {
                 error : false,
