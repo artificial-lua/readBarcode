@@ -79,6 +79,7 @@ app.get(url['user-search'], function(req, res) {
 app.get(url['user-edit'], function(req, res) {
 	var data = req.query
 	var result = parser.user_edit(mysql, data)
+	log(result)
 
 	res.send("temp user edit")
 })
