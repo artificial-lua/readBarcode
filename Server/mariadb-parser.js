@@ -63,5 +63,16 @@ function user_search(mysql, data){
 }
 
 exports.user_edit = function(mysql, data){
+    if(data['edit-id'].includes("admin"||"user"))
+    {
+        console.log(data['edit-id'])
+        return "error"
+    }
+    var value = user_search(mysql, data)
+    if (value.error == false){
+        
+    }else{
 
+    }
+    return value
 }

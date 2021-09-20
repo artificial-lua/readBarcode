@@ -69,7 +69,13 @@ app.get(url['user-search'], function(req, res) {
 
 	res.send(result)
 })
-// 유저 수정
+/* 유저 수정
+{
+	id : 조회할 유저 아이디
+	edit-id : 바꿀 아이디 명
+	password : 유저의 password
+} =>
+*/
 app.get(url['user-edit'], function(req, res) {
 	res.send("temp user edit")
 })
