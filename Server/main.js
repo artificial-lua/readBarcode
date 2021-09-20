@@ -56,7 +56,7 @@ app.get(url['user-search'], function(req, res) {
 
 	var result = parser.user_search(mysql, data)
 
-	res.send("temp user search")
+	res.send(result)
 })
 // 유저 수정
 app.get(url['user-edit'], function(req, res) {
