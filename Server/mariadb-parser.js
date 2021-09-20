@@ -36,7 +36,7 @@ exports.user_search = function(mysql, data){
     var num = mysql.query('Select num from user_information where id="' + data['id'] + '";')
     console.log(num)
     var result;
-    if (num.lenght() == 1){
+    if (num.lenght() != []){
         num = num[0].num
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
