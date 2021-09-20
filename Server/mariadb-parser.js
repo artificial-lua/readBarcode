@@ -1,27 +1,21 @@
-exports.condition = function(json){
-    mysql = require('./mariadb-connector');
-    var conn = mysql.connection(json)
+exports.condition = function(mysql){
 
-    return conn.query('show databases;')
+    return mysql.query('show databases;')
 }
 
-exports.barcode_reg = function(json, body){
-    mysql = require('./mariadb-connector');
-    var conn = mysql.connection(json);
+exports.barcode_reg = function(mysql, body){
 
     return "ok"
 }
 
-exports.user_reg = function(json){
-    mysql = require('./mariadb-connector');
-    var conn = mysql.connection(json);
-    var num = conn.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
+exports.user_reg = function(mysql){
+    var num = mysql.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
     num++;
     var result = {
         id : 'user' + num,
         hash : 'user' + num + 'hash'
     }
     var query = `INSERT INTO user_information VALUES (DEFAULT, '` + result['id'] + `', NOW(), 3, '` + result['hash'] + `');`
-    conn.query(query);
+    mysql.query(query);
     return result;
 }
