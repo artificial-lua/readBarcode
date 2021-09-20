@@ -13,6 +13,7 @@ url = config['url']
 blacklist = config['black-list']
 
 function log(log){
+	log = "[" + new Date() + "]" + log
 	if (debug == true){
 		console.log(log)
 	}
@@ -64,9 +65,8 @@ id로 검색하여 password 리턴받음
 */
 app.get(url['user-search'], function(req, res) {
 	var data = req.query
-	log(data)
-
 	var result = parser.user_search(mysql, data)
+	log(result)
 
 	res.send(result)
 })
@@ -88,13 +88,10 @@ app.get(url['user-edit'], function(req, res) {
 // 바코드
 // 바코드 입력
 app.get(url['barcode-reg'], function(req, res){
-	var body = req.query
-	
-	var result = parser.barcode_reg(mysql, body)
+	var data = req.query
+	var result = parser.barcode_reg(mysql, data)
+	log(result)
 
-	log(req.query.toString() + result.toString())
-
-	log("is ABC in AABCC ? " + "AABCC".includes("AAB"))
 	res.send(result)
 })
 // 바코드 조회

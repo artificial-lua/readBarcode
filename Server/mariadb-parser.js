@@ -1,10 +1,5 @@
 const crypto = require('crypto');
 
-exports.barcode_reg = function(mysql, body){
-
-    return "ok";
-}
-
 exports.user_reg = function(mysql, data){
     var num = mysql.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
     num++;
@@ -85,4 +80,19 @@ exports.user_edit = function(mysql, data, blacklist){
 
     }
     return value
+}
+
+exports.barcode_reg = function(mysql, body){
+
+    return "ok";
+}
+
+exports.barcode_search = function(mysql, body){
+
+    return "ok";
+}
+
+exports.barcode_rait = function(mysql, body){
+
+    return "ok";
 }
