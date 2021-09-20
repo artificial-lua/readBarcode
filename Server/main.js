@@ -43,6 +43,7 @@ function log(log){
 */
 app.get(url['user-reg'], function(req, res) {
 	var data = req.query
+	log(data)
 
 	var result = parser.user_reg(mysql, data);
 	log(result)
@@ -51,6 +52,7 @@ app.get(url['user-reg'], function(req, res) {
 // 유저 조회
 app.get(url['user-search'], function(req, res) {
 	var data = req.query
+	log(data)
 
 	var result = parser.user_search(mysql, data)
 
