@@ -94,7 +94,7 @@ app.get(url['barcode-reg'], function(req, res){
 
 	log(req.query.toString() + result.toString())
 
-	log("is ABC in AABCC ? " + "AABCC".includes("ABC"))
+	log("is ABC in AABCC ? " + "AABCC".includes("AAB"))
 	res.send(result)
 })
 // 바코드 조회

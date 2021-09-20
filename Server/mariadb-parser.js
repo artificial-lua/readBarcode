@@ -67,7 +67,7 @@ exports.user_edit = function(mysql, data, blacklist){
 
     // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
-        console.log("check " + str + " in " + data['edit-id'] + "? " + data['edit-id'].toString().includes(str))
+        console.log("check " + str + " in " + data['edit-id'] + "? " + data['edit-id'].includes(str))
         if (data['edit-id'].includes(str)){
             result = {
                 error : true,
