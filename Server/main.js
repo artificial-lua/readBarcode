@@ -13,7 +13,7 @@ url = config['url']
 blacklist = config['black-list']
 
 function log(log){
-	log = "[" + new Date() + "]" + log
+	log = "[" + new Date() + "]" + log.toString()
 	if (debug == true){
 		console.log(log)
 	}
