@@ -16,7 +16,7 @@ exports.user_reg = function(mysql, data){
         id : 'user' + num,
         password : data['password']
     }
-    var query = `INSERT INTO user_information VALUES (DEFAULT, '` + result['id'] + `', NOW(), 3, '` + result['hash'] + `');`;
+    var query = `INSERT INTO user_information VALUES (DEFAULT, '` + result['id'] + `', NOW(), 3, '` + hash + `');`;
     try {
         mysql.query(query);
         result = {
@@ -25,14 +25,15 @@ exports.user_reg = function(mysql, data){
         }
     } catch (error) {
         result = {
-            error : true
+            error : true,
+            message : "is error"
         }
     }
     return result;
 }
 
 exports.user_search = function(mysql, data){
-    var num = mysql.query('Select * from user_information where id="' + data['id'] + '";')
+    var num = mysql.query('Select num from user_information where id="' + data['id'] + '";')
     console.log(num)
 
     return "temp user search"
