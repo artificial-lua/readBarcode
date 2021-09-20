@@ -32,7 +32,7 @@ exports.user_reg = function(mysql, data){
 }
 
 exports.user_search = function(mysql, data){
-    var num = mysql.query('Select num from user_information where id="' + data['id'] + '";')
+    var num = mysql.query('Select * from user_information;')
     console.log(num)
 
     return "temp user search"
