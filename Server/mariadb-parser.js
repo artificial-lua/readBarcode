@@ -83,16 +83,40 @@ exports.user_edit = function(mysql, data, blacklist){
 }
 
 exports.barcode_reg = function(mysql, body){
+    var result
+    
 
-    return "ok";
+
+    result = {
+        error : true,
+        message : "temp barcode reg"
+    }
+
+    return result;
 }
 
 exports.barcode_search = function(mysql, body){
+    var result
+    
 
-    return "ok";
+
+    result = {
+        error : true,
+        message : "temp barcode search"
+    }
+
+    return result;
 }
 
 exports.barcode_rait = function(mysql, body){
+    var result
+    
 
-    return "ok";
+
+    result = {
+        error : true,
+        message : "temp barcode rait"
+    }
+
+    return result;
 }

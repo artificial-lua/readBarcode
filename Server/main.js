@@ -13,7 +13,7 @@ url = config['url']
 blacklist = config['black-list']
 
 function log(log){
-	log = "[" + new Date() + "]" + JSON.stringify(log)
+	log = "[" + new Date() + "]::" + JSON.stringify(log)
 	if (debug == true){
 		console.log(log)
 	}
@@ -96,11 +96,19 @@ app.get(url['barcode-reg'], function(req, res){
 })
 // 바코드 조회
 app.get(url['barcode-search'], function(req, res){
-	res.send("temp barcode search")
+	var data = req.query
+	var result = parser.barcode_search(mysql, data)
+	log(result)
+
+	res.send(result)
 })
 // 바코드 평가
 app.get(url['barcode-rait'], function(req, res){
-	res.send("temp barcode rait")
+	var data = req.query
+	var result = parser.barcode_rait(mysql, data)
+	log(result)
+
+	res.send(result)
 })
 
 
