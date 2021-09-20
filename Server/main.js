@@ -34,12 +34,17 @@ function log(log){
 평문 password를 Hash로 DB에 저장하며 유저 생성
 리턴값은 해당 유저 name
 => {
-	id : 유저 id 평문
-	password : 저장된 Password 리턴 ( 비교용 )
+	error : true/false
+	{
+		id : 유저 id 평문
+		password : 저장된 Password 리턴 ( 비교용 )
+	}
 }
 */
 app.get(url['user-reg'], function(req, res) {
-	var result = parser.user_reg(mysql);
+	var data = req.query
+
+	var result = parser.user_reg(mysql, data);
 
 	var result = {
 		error : false,
