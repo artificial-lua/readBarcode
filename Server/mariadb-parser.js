@@ -11,6 +11,7 @@ exports.user_reg = function(mysql, data){
     var hash = num + data['password'] + 'hash';
     hash = crypto.createHash('sha512').update(hash).digest('base64');
 
+    console.error(hash)
     var result = {
         id : 'user' + num,
         password : data['password']
