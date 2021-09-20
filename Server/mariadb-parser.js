@@ -32,7 +32,7 @@ exports.user_reg = function(mysql, data){
     return result;
 }
 
-exports.user_search = user_search(mysql, data)
+exports.user_search = user_search;
 function user_search(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     var result;
