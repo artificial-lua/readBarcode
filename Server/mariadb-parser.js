@@ -33,16 +33,16 @@ exports.user_reg = function(mysql, data){
 }
 
 exports.user_search = function(mysql, data){
-    var num = mysql.query('Select * from user_information where id="' + data['id'] + '";')
+    var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     console.log(num)
     var result;
     if (num != []){
-        num = num[0].num
+        num = value[0].num
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
         console.log(hash)
         console.log(num[0]['hash'])
-        if (num[0].hash == hash){
+        if (value[0].hash == hash){
             result = {
                 error : false,
                 message : "correct user!"
