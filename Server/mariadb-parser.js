@@ -34,14 +34,11 @@ exports.user_reg = function(mysql, data){
 
 exports.user_search = function(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
-    console.log(value)
     var result;
     if (value != []){
         num = value[0].num
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
-        console.log(hash)
-        console.log(value[0]['hash'])
         if (value[0].hash == hash){
             result = {
                 error : false,
@@ -53,7 +50,6 @@ exports.user_search = function(mysql, data){
                 message : "incorrect user"
             }
         }
-        console.log(result)
     }
     else{
         result = {
