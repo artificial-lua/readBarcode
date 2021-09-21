@@ -75,9 +75,9 @@ exports.user_edit = function(mysql, data, blacklist){
     // DB 내 확인
     var value = user_search(mysql, data)
     if (value.error == false){
-        
+        console.log("ok")
     }else{
-
+        console.log("error")
     }
     return value
 }
