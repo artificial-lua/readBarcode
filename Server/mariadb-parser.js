@@ -120,7 +120,7 @@ exports.user_edit = function(mysql, data, blacklist){
         }
         return result
     }
-    if (user_id_search(mysql, data['edit-id']).error == true){
+    if (user_id_search(mysql, data['edit-id']).error == false){
         result = {
             error : true,
             message : "Already used"
