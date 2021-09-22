@@ -31,7 +31,7 @@ function user_search(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     var result;
     console.log(data['id'])
-    if (value.error != true){
+    if (value.length == 1){
         num = value[0].num
         num = num + data['password'] + 'hash';
         var hash = crypto.createHash('sha512').update(num).digest('base64')
