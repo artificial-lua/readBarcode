@@ -96,6 +96,7 @@ exports.user_edit = function(mysql, data, blacklist){
 
     // DB 수정
     value = mysql.query('UPDATE information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
+    console.log(value)
 
     if (value.length != 1){
         value = {
