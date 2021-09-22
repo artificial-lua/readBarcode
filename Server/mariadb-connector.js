@@ -5,13 +5,19 @@ function connection(json){
         host     : json['host'],
         port     : json['port'],
         user     : json['user'],
-        password : json['passwd'],
+        password : json['password'],
         database : json['db']
     });
-    return connection
+    return connection;
 }
 
 exports.connection = function(json){
 
     return connection(json);
+}
+
+exports.conn = function(json){
+    var connection = new mysql(json['db'])
+
+    return connection;
 }
