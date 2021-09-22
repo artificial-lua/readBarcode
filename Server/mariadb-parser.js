@@ -98,7 +98,7 @@ exports.user_edit = function(mysql, data, blacklist){
     var value = mysql.query('UPDATE user_information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
     console.log(value)
 
-    if (value.length != 1){
+    if (value.changedRows != 1){
         value = {
             error : true,
             message : "Unknown error"
