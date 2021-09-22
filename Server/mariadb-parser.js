@@ -6,7 +6,6 @@ exports.user_reg = function(mysql, data){
     var hash = num + data['password'] + 'hash';
     hash = crypto.createHash('sha512').update(hash).digest('base64');
 
-    console.error(hash)
     var result = {
         id : 'user' + num,
         password : data['password']
@@ -60,9 +59,16 @@ function user_search(mysql, data){
 exports.user_edit = function(mysql, data, blacklist){
     var result;
 
+    if (!data('id').includes('user')){
+        result = {
+            error : true,
+            message : "id는 1회만 변경할 수 있습니다."
+        }
+        return result
+    }
+
     // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
-        console.log("check " + str + " in " + data['edit-id'] + "? " + data['edit-id'].includes(str))
         if (data['edit-id'].includes(str)){
             result = {
                 error : true,
@@ -74,12 +80,12 @@ exports.user_edit = function(mysql, data, blacklist){
 
     // DB 내 확인
     var value = user_search(mysql, data)
-    if (value.error == false){
-        console.log("ok")
-    }else{
-        console.log("error")
+    if (value.error == true){
+        return value
     }
-    return value
+
+    // DB 수정
+    value = mysql.query('UPDATE information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
 }
 
 exports.barcode_reg = function(mysql, body){
