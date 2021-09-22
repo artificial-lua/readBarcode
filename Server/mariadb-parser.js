@@ -85,10 +85,10 @@ exports.user_edit = function(mysql, data, blacklist){
     }
 
     console.log("user-edit  blacklist check")
-    console.log(value)
 
     // DB 내 확인
     var value = user_search(mysql, data)
+    console.log(value)
     if (value.length != 1){
         return value
     }
