@@ -16,8 +16,26 @@ exports.connection = function(json){
     return connection(json);
 }
 
-exports.conn = function(json){
-    var connection = new mysql(json['db'])
+exports.insert = function(db, json){
 
-    return connection;
+
+    return "temp";
+}
+
+exports.count = function(db, json){
+
+
+    return "temp"
+}
+
+exports.search = function(db, json){
+
+
+    return "temp"
+}
+
+exports.update = function(db, json){
+
+
+    return "temp"
 }
