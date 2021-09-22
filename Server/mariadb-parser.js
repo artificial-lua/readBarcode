@@ -48,6 +48,7 @@ function user_search(mysql, data){
         }
     }
     else{
+        console.log(value)
         result = {
             error : true,
             message : "no match"
