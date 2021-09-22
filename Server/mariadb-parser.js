@@ -116,7 +116,7 @@ exports.user_edit = function(mysql, data, blacklist){
     if (user_search(mysql, data).error == true){
         result = {
             error : true,
-            message : "error error error"
+            message : "incorrect user. Please login again"
         }
         return result
     }
