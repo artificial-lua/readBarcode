@@ -87,16 +87,15 @@ exports.user_edit = function(mysql, data, blacklist){
     console.log("user-edit  blacklist check")
 
     // DB 내 확인
-    var value = user_search(mysql, data)
-    console.log(value)
-    if (value.length != 1){
+    var search = user_search(mysql, data)
+    if (search.error == true){
         return value
     }
 
     console.log("user-edit DB check")
 
     // DB 수정
-    value = mysql.query('UPDATE information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
+    var value = mysql.query('UPDATE information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
 
     if (value.length != 1){
         value = {
