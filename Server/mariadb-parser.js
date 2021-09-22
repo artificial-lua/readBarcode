@@ -74,7 +74,7 @@ function user_id_search(mysql, id){
                 message : "correct user"
             }
         } else{
-            reslt = {
+            result = {
                 error : true,
                 message : "incorrect user"
             }
