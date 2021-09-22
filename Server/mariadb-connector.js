@@ -16,25 +16,24 @@ exports.connection = function(json){
     return connection(json);
 }
 
-exports.insert = function(db, json){
+exports.insert = function(db, data){
 
 
     return "temp";
 }
 
-exports.count = function(db, json){
+exports.count = function(db, data){
+
+    return "temp"
+}
+
+exports.search = function(db, data){
 
 
     return "temp"
 }
 
-exports.search = function(db, json){
-
-
-    return "temp"
-}
-
-exports.update = function(db, json){
+exports.update = function(db, data){
 
 
     return "temp"

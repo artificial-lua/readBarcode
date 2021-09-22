@@ -86,9 +86,8 @@ exports.user_edit = function(mysql, data, blacklist){
 
     console.log("user-edit  blacklist check")
 
-    // DB 내 확인
-    var search = user_search(mysql, data)
-    if (search.error == true){
+    // DB 내 id 확인
+    if (user_search(mysql, data).error == true){
         return value
     }
 
@@ -96,24 +95,29 @@ exports.user_edit = function(mysql, data, blacklist){
 
     // DB 수정
     var value = mysql.query('UPDATE user_information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
-    console.log(value)
+    if (value.error == true){
+        result = {
+            error : true,
+            message : value.error
+        }
+    }
 
     if (value.changedRows != 1){
-        value = {
+        result = {
             error : true,
             message : "Unknown error"
         }
         return value
     } else {
-        value = {
+        result = {
             error : false,
             message : "user information update"
         }
-        return value
     }
+    return result;
 }
 
-exports.barcode_reg = function(mysql, body){
+exports.barcode_reg = function(mysql, data){
     var result
     
 
@@ -126,7 +130,7 @@ exports.barcode_reg = function(mysql, body){
     return result;
 }
 
-exports.barcode_search = function(mysql, body){
+exports.barcode_search = function(mysql, data){
     var result
     
 
@@ -139,7 +143,7 @@ exports.barcode_search = function(mysql, body){
     return result;
 }
 
-exports.barcode_rait = function(mysql, body){
+exports.barcode_rait = function(mysql, data){
     var result
     
 
