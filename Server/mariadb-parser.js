@@ -89,14 +89,14 @@ exports.user_edit = function(mysql, data, blacklist){
 
     if (value.error == true){
         value = {
-            error = true,
-            message = "Unknown error"
+            error : true,
+            message : "Unknown error"
         }
         return value
     } else {
         value = {
-            error = false,
-            message = "user information update"
+            error : false,
+            message : "user information update"
         }
         return value
     }
