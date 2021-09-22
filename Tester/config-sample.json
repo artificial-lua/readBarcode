@@ -1,0 +1,24 @@
+{
+    "host" : "URL",
+    "port" : "Port",
+    "path" : ["URL Path Array"
+    ],
+    "params" : [
+        {
+            "password" : "pw"
+        },
+        {
+            "password" : "pw"
+        },
+        {
+            "id" : "id",
+            "password" : "pw"
+        },
+        {
+            "id" : "id",
+            "edit-id" : "edit-id",
+            "password" : "pw"
+        }
+    ],
+    "debug" : true
+}

@@ -61,6 +61,8 @@ function user_search(mysql, data){
 exports.user_edit = function(mysql, data, blacklist){
     var result;
 
+    console.log("user-edit start")
+
     if (!data['id'].includes('user')){
         result = {
             error : true,
@@ -68,6 +70,8 @@ exports.user_edit = function(mysql, data, blacklist){
         }
         return result
     }
+
+    console.log("user-edit changed check")
 
     // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
@@ -80,11 +84,15 @@ exports.user_edit = function(mysql, data, blacklist){
         }
     }
 
+    console.log("user-edit  blacklist check")
+
     // DB 내 확인
     var value = user_search(mysql, data)
     if (value.length != 1){
         return value
     }
+
+    console.log("user-edit DB check")
 
     // DB 수정
     value = mysql.query('UPDATE information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
