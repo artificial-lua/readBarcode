@@ -58,6 +58,32 @@ function user_search(mysql, data){
     return result
 }
 
+function user_id_search(mysql, id){
+    var value = mysql.query('Select * from user_information where id="' + id + '";')
+    var result;
+    if (value.error == true){
+        result = {
+            error : true,
+            message : "DB error"
+        }
+    }
+    else{
+        if (value.length == 1){
+            result = {
+                error : false,
+                message : "correct user"
+            }
+        } else{
+            reslt = {
+                error : true,
+                message : "incorrect user"
+            }
+        }
+    }
+
+    return result
+}
+
 exports.user_edit = function(mysql, data, blacklist){
     var result;
 
@@ -88,7 +114,18 @@ exports.user_edit = function(mysql, data, blacklist){
 
     // DB 내 id 확인
     if (user_search(mysql, data).error == true){
-        return value
+        result = {
+            error : true,
+            message : "error error error"
+        }
+        return result
+    }
+    if (user_id_search(mysql, data['edit-id']).error == true){
+        result = {
+            error : true,
+            message : "Already used"
+        }
+        return result
     }
 
     console.log("user-edit DB check")
