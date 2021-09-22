@@ -61,7 +61,7 @@ function user_search(mysql, data){
 exports.user_edit = function(mysql, data, blacklist){
     var result;
 
-    if (!data('id').includes('user')){
+    if (!data['id'].includes('user')){
         result = {
             error : true,
             message : "id는 1회만 변경할 수 있습니다."
