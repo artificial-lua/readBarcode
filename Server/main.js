@@ -113,18 +113,9 @@ app.get(url['barcode-rait'], function(req, res){
 
 
 /*  서버 컨디션 체크
-{
-	password: 컨디션 체크를 하기 위한 Password
-} => "ok" or String
 */
 app.get(url['condition'], function(req, res){
-	if (req.query['password'] == config['admin']['password']){
-		res.send("ok")
-	}
-	else{
-		log("Wrong Password")
-		res.send(req.query['passwd']);
-	}
+	res.send("ok")
 })
 
 // 마지막으로, 포트로 열어줍니다.
