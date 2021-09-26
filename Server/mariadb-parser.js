@@ -260,7 +260,7 @@ exports.barcode_rait = function(mysql, data){
                 }
             }else{
                 if(data.kind == 'raw'){
-                    qr = 'insert into barcode_rate VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
+                    qr = 'insert into barcode_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
                 }else{
                     qr = 'insert into processed_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
                 }
