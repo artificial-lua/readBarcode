@@ -162,8 +162,8 @@ exports.barcode_reg = function(mysql, data){
     }else{
 
         query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("' + data.barcode + '", ' + value.result.num + ', NOW(), "' + data.title + '", "");'
-        var value = mysql.query(query)
-        if (value.error == true){
+        var value2 = mysql.query(query)
+        if (value2.error == true){
             result = {
                 error : true,
                 message : "DB error"
