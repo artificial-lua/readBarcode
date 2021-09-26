@@ -240,7 +240,7 @@ exports.barcode_rait = function(mysql, data){
         }else{
             result = {
                 error : true,
-                message : "user error"
+                message : "kind error"
             }
             return result
         }
