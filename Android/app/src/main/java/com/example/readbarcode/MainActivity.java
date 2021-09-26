@@ -145,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
     // 초기 시작시 뷰에 할당합니다.
     private void view_conn(){
+        setContentView(R.layout.activity_main);
+
         btn_condition = (Button) findViewById(R.id.condition_check);
         btn_user_reg = (Button) findViewById(R.id.user_reg);
         btn_user_reload = (Button) findViewById(R.id.user_reload);
@@ -193,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         view_conn();
         testing(); // testing() 함수는 테스트시만 실행합시다.

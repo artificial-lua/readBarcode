@@ -93,6 +93,7 @@ app.get(url['user-edit'], function(req, res) {
 // 바코드 입력
 app.get(url['barcode-reg'], function(req, res){
 	var data = req.query
+	log(data)
 	var result = parser.barcode_reg(mysql, data)
 	log(result)
 
