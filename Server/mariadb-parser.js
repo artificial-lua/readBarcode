@@ -162,6 +162,7 @@ exports.barcode_reg = function(mysql, data){
     }else{
 
         console.log(data)
+        console.log(data['barcode'])
 
         var query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("';
         query += data['barcode'];
