@@ -48,10 +48,6 @@ app.get(url['user-reg'], function(req, res) {
 	log(data)
 
 	var result = parser.user_reg(mysql, data);
-	result = {
-		error : result.error,
-		message : result.message
-	}
 	log(result)
 	res.send(result)
 })
@@ -70,6 +66,10 @@ id로 검색하여 password 리턴받음
 app.get(url['user-search'], function(req, res) {
 	var data = req.query
 	var result = parser.user_search(mysql, data)
+	result = {
+		error : result.error,
+		message : result.message
+	}
 	log(result)
 
 	res.send(result)
