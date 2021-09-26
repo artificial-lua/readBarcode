@@ -161,7 +161,13 @@ exports.barcode_reg = function(mysql, data){
         
     }else{
 
-        query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("' + data.barcode + '", ' + value.result.num + ', NOW(), "' + data.title + '", "");'
+        query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("';
+        query += data.barcode;
+        query += '", ';
+        query += value.result.num
+        query += ', NOW(), "'
+        query += data.title
+        query += '", "");';
         value = mysql.query(query)
         if (value.error == true){
             result = {
