@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { query } = require('express');
 
 exports.user_reg = function(mysql, data){
     var num = mysql.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
@@ -38,7 +39,8 @@ function user_search(mysql, data){
         if (value[0].hash == hash){
             result = {
                 error : false,
-                message : "correct user!"
+                message : "correct user!",
+                result : value
             }
         } else{
             result = {
@@ -155,26 +157,69 @@ exports.user_edit = function(mysql, data, blacklist){
 }
 
 exports.barcode_reg = function(mysql, data){
-    var result
-    
+    var value = user_search(mysql, data)
 
+    if (value.error){
+        
+    }else{
 
-    result = {
-        error : true,
-        message : "temp barcode reg"
+        query = `
+        INSERT INTO barcode_rawdata
+            (raw, 
+            user_num, 
+            time, 
+            title, 
+            des)
+        VALUES
+            ('` + data.barcode + `', 
+            ` + value.result.num + `, 
+            NOW(), 
+            '` + data.title + `', 
+            '');
+        `
+        value = mysql.query(query)
+        if (value.error == true){
+            result = {
+                error : true,
+                message : "DB error"
+            }
+        }else{
+            result = {
+                error : false,
+                message : "ok"
+            }
+        }
     }
 
     return result;
 }
 
 exports.barcode_search = function(mysql, data){
-    var result
-    
-
-
-    result = {
-        error : true,
-        message : "temp barcode search"
+    var result = user_search(mysql, data)
+    if (result.error) {
+        
+        //error
+    }else{
+        var value = mysql.query('select * from barcode_rawdata where raw="' + data.barcode + '";');
+        
+        if (value.error == true){
+            result = {
+                error : true,
+                message : "DB error"
+            }
+        }else{
+            if (value.length == 0){
+                result = {
+                    error : true,
+                    message : "no item"
+                }
+            }else{
+                result = {
+                    error : false,
+                    result : value
+                }
+            }
+        }
     }
 
     return result;
