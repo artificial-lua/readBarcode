@@ -245,7 +245,7 @@ exports.barcode_rait = function(mysql, data){
                 message : "data number error"
             }
         }else{
-            value = mysql.query(qr);
+            value = mysql.query(qr2);
             console.log(value)
 
             if (value.error){
