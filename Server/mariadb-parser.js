@@ -87,7 +87,6 @@ function user_id_search(mysql, id){
 exports.user_edit = function(mysql, data, blacklist){
     var result;
 
-    console.log("user-edit start")
 
     if (!data['id'].includes('user')){
         result = {
@@ -97,7 +96,6 @@ exports.user_edit = function(mysql, data, blacklist){
         return result
     }
 
-    console.log("user-edit changed check")
 
     // 사용할 수 없는 id 문자열 확인
     for (const str of blacklist){
@@ -110,7 +108,6 @@ exports.user_edit = function(mysql, data, blacklist){
         }
     }
 
-    console.log("user-edit  blacklist check")
 
     // DB 내 id 확인
     if (user_search(mysql, data).error == true){
@@ -128,7 +125,6 @@ exports.user_edit = function(mysql, data, blacklist){
         return result
     }
 
-    console.log("user-edit DB check")
 
     // DB 수정
     var value = mysql.query('UPDATE user_information SET id="' + data['edit-id'] + '" where id="' + data['id'] + '";');
@@ -158,7 +154,6 @@ exports.barcode_reg = function(mysql, data){
     var value = user_search(mysql, data)
 
     var result
-    console.log(value)
 
     if (value.error){
         result = {
@@ -168,7 +163,6 @@ exports.barcode_reg = function(mysql, data){
     }else{
 
         qr = 'INSERT INTO barcode_rawdata VALUES (DEFAULT, "' + data.barcode + '", ' + value.result.num + ', NOW(), "' + data.title + '", "");';
-        console.log(qr)
         var dbresult = mysql.query(qr)
         if (dbresult.error == true){
             result = {
@@ -229,14 +223,13 @@ exports.barcode_rait = function(mysql, data){
             message : "user error"
         }
     }else{
-        console.log(value);
         var user_num = value.result.num
         if(data.kind == 'raw'){
             qr = 'select * from barcode_rawdata where id=' + data.barcodeid + ';';
-            qr2 = 'select * from barcode_rawdata where user_num=' + user_num;
+            qr2 = 'select * from barcode_rait where user_num=' + user_num;
         }else if(data.kind == 'processed'){
             qr = 'select * from processed_data where id=' + data.barcodeid + ';';
-            qr2 = 'select * from processed_data where user_num=' + user_num;
+            qr2 = 'select * from processed_rait where user_num=' + user_num;
         }else{
             result = {
                 error : true,
