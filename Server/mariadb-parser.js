@@ -222,7 +222,7 @@ exports.barcode_rait = function(mysql, data){
     var qr
     var qr2
 
-    var value = user_search(data);
+    var value = user_search(mysql, data);
     if(value.error){
         result = {
             error : true,
