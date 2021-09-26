@@ -2,7 +2,6 @@ package com.example.readbarcode;
 
 import android.content.Context;
 import android.os.Handler;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -48,7 +47,7 @@ public class Restful  extends Thread{
                 if (gp == "get"){
                     log("run - get");
                     HttpURLConnection conn;
-                    URL url = new URL("http", "barcode.project-geek.cc", Hosts.port, path[c] + query);
+                    URL url = new URL("http", Hosts.url, Hosts.port, path[c] + query);
 
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
