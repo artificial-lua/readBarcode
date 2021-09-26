@@ -153,5 +153,13 @@
                 android:text="barcode_rait_bad" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            android:text="[Log]" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
