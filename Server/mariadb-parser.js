@@ -253,6 +253,7 @@ exports.barcode_rait = function(mysql, data){
             }
         }else{
             value = mysql.query(qr);
+            console.log(value)
 
             if (value.error){
                 result = {
