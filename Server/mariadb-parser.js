@@ -230,7 +230,7 @@ exports.barcode_rait = function(mysql, data){
         }
     }else{
         console.log(value);
-        var user_num = value[0].num
+        var user_num = value.result.num
         if(data.kind == 'raw'){
             qr = 'select * from barcode_rawdata where id=' + data.barcodeid + ';';
             qr2 = 'select * from barcode_rawdata where user_num=' + user_num;
