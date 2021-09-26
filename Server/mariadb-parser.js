@@ -157,11 +157,11 @@ exports.user_edit = function(mysql, data, blacklist){
 exports.barcode_reg = function(mysql, data){
     var value = user_search(mysql, data)
 
-    console.log(data)
-
     if (value.error){
         
     }else{
+
+        console.log(data)
 
         var query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("';
         query += data['barcode'];
