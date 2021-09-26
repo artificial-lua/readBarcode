@@ -208,7 +208,7 @@ exports.barcode_search = function(mysql, data){
             }else{
                 result = {
                     error : false,
-                    result : value
+                    result : value[0]
                 }
             }
         }
@@ -219,12 +219,58 @@ exports.barcode_search = function(mysql, data){
 
 exports.barcode_rait = function(mysql, data){
     var result
-    
+    var qr
+    var qr2
 
+    var value = user_search(data);
+    if(value.error){
+        result = {
+            error : true,
+            message : "user error"
+        }
+    }else{
+        var user_num = value[0].num
+        if(data.kind == 'raw'){
+            qr = 'select * from barcode_rawdata where id=' + data.barcodeid + ';';
+            qr2 = 'select * from barcode_rawdata where user_num=' + user_num;
+        }else if(data.kind == 'processed'){
+            qr = 'select * from processed_data where id=' + data.barcodeid + ';';
+            qr2 = 'select * from processed_data where user_num=' + user_num;
+        }else{
+            result = {
+                error : true,
+                message : "user error"
+            }
+            return result
+        }
+        value = mysql.query(qr);
 
-    result = {
-        error : true,
-        message : "temp barcode rait"
+        if(value.error){
+            result = {
+                error : true,
+                message : "data number error"
+            }
+        }else{
+            value = mysql.query(qr);
+
+            if (value.error){
+                result = {
+                    error : true,
+                    message : "DB error"
+                }
+            }else if(value.length != 0){
+                result = {
+                    error : true,
+                    message : "이미 평가된 항목입니다."
+                }
+            }else{
+                if(data.kind == 'raw'){
+                    qr = 'insert into barcode_rate VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
+                }else{
+                    qr = 'insert into processed_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
+                }
+            }
+        }
     }
 
     return result;
