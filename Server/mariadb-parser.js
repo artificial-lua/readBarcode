@@ -264,6 +264,19 @@ exports.barcode_rait = function(mysql, data){
                 }else{
                     qr = 'insert into processed_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
                 }
+
+                value = mysql.query(qr);
+                if (value.error){
+                    result = {
+                        error : true,
+                        message : "insert error"
+                    }
+                }else{
+                    result = {
+                        error : false,
+                        message : "평가 완료"
+                    }
+                }
             }
         }
     }
