@@ -31,7 +31,6 @@ exports.user_search = user_search;
 function user_search(mysql, data){
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     var result;
-    console.log(data['id'])
     if (value.length == 1){
         num = value[0].num
         num = num + data['password'] + 'hash';
@@ -50,7 +49,6 @@ function user_search(mysql, data){
         }
     }
     else{
-        console.log(value)
         result = {
             error : true,
             message : "no match"
@@ -163,20 +161,7 @@ exports.barcode_reg = function(mysql, data){
         
     }else{
 
-        query = `
-        INSERT INTO barcode_rawdata
-            (raw, 
-            user_num, 
-            time, 
-            title, 
-            des)
-        VALUES
-            ('` + data.barcode + `', 
-            ` + value.result.num + `, 
-            NOW(), 
-            '` + data.title + `', 
-            '');
-        `
+        query = 'INSERT INTO barcode_rawdata (raw, user_num, time, title, des) VALUES ("' + data.barcode + '", ` + value.result.num + ', NOW(), "' + data.title + '", "");'
         value = mysql.query(query)
         if (value.error == true){
             result = {

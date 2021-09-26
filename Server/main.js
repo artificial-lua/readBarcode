@@ -48,6 +48,10 @@ app.get(url['user-reg'], function(req, res) {
 	log(data)
 
 	var result = parser.user_reg(mysql, data);
+	result = {
+		error : result.error,
+		message : result.message
+	}
 	log(result)
 	res.send(result)
 })
