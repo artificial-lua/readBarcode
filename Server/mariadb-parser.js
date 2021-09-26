@@ -229,6 +229,7 @@ exports.barcode_rait = function(mysql, data){
             message : "user error"
         }
     }else{
+        console.log(value);
         var user_num = value[0].num
         if(data.kind == 'raw'){
             qr = 'select * from barcode_rawdata where id=' + data.barcodeid + ';';
