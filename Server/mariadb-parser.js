@@ -254,9 +254,26 @@ exports.barcode_rait = function(mysql, data){
                     message : "DB error"
                 }
             }else if(value.length != 0){
-                result = {
-                    error : true,
-                    message : "이미 평가된 항목입니다."
+                value = value[0]
+                if(data.kind == 'raw'){
+                    qr = 'UPDATE barcode_rait SET rait="' + data['rait'] + '" where num="' + value['num'] + '";';
+                }else{
+                    qr = 'UPDATE processed_rait SET rait="' + data['rait'] + '" where num="' + value['num'] + '";';
+                }
+                log(qr)
+                value = mysql.query(qr);
+
+                if (value.error){
+                    result = {
+                        error : true,
+                        message : "update error"
+                    }
+                }
+                else {
+                    result = {
+                        error : false,
+                        message : "update complete"
+                    }
                 }
             }else{
                 if(data.kind == 'raw'){
