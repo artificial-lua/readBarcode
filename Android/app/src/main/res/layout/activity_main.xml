@@ -122,6 +122,12 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/barcode_capture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="barcode_capture" />
+
+        <Button
             android:id="@+id/barcode_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

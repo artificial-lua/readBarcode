@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_user_reg;
     Button btn_user_reload;
     Button btn_user_edit;
+    Button btn_barcode_capture;
     Button btn_barcode_reg;
     Button btn_barcode_search;
     Button btn_barcode_good;
@@ -172,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
 
         rest.get(3, params);
     }
+    private void barcode_capture(){
+        // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
+        // 캡쳐된 넘버는 따로 어디로 받아놨는지 표시할 수 있도록
+    }
     private void barcode_reg(){
         log("Action - barcode_reg");
         class Parser extends Handler {
@@ -256,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
         btn_user_reg = (Button) findViewById(R.id.user_reg);
         btn_user_reload = (Button) findViewById(R.id.user_reload);
         btn_user_edit = (Button) findViewById(R.id.user_edit);
+        btn_barcode_capture = (Button) findViewById(R.id.barcode_capture);
         btn_barcode_reg = (Button) findViewById(R.id.barcode_reg);
         btn_barcode_search = (Button) findViewById(R.id.barcode_search);
         btn_barcode_good = (Button) findViewById(R.id.barcode_rait_good);
@@ -293,6 +299,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 user_edit();
+            }
+        });
+        btn_barcode_capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_capture();
             }
         });
         btn_barcode_reg.setOnClickListener(new View.OnClickListener() {
