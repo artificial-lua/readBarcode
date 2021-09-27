@@ -246,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
                 "&barcodeid=" + 1 + //이부분 이부분 미우 중요함 바꿔야함 바코드 id를 search에서 받아왔을 때 가능한거임 실제로는 버튼만으로 작동하면 안된다
                 "&rait=" + gb;
         rest.get(6, params);
-
     }
 
     // 초기 시작시 뷰에 할당합니다.
