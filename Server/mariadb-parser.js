@@ -256,9 +256,9 @@ exports.barcode_rait = function(mysql, data){
             }else if(value.length != 0){
                 value = value[0]
                 if(data.kind == 'raw'){
-                    qr = 'UPDATE barcode_rait SET rait="' + data['rait'] + '" where num="' + value['num'] + '";';
+                    qr = 'UPDATE barcode_rait SET rait=' + data['rait'] + ' where num="' + value['num'] + '";';
                 }else{
-                    qr = 'UPDATE processed_rait SET rait="' + data['rait'] + '" where num="' + value['num'] + '";';
+                    qr = 'UPDATE processed_rait SET rait=' + data['rait'] + ' where num="' + value['num'] + '";';
                 }
                 console.log(qr);
                 value = mysql.query(qr);
