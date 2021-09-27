@@ -260,6 +260,7 @@ exports.barcode_rait = function(mysql, data){
                 }else{
                     qr = 'UPDATE processed_rait SET rait="' + data['rait'] + '" where num="' + value['num'] + '";';
                 }
+                console.log(qr);
                 value = mysql.query(qr);
 
                 if (value.error){
