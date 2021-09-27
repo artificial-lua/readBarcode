@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     String id;
     String pw;
+    String bc;
+    String tt;
+    String kind;
+    String barcodeid;
 
     private String getId(){
         return this.id;
@@ -47,6 +51,32 @@ public class MainActivity extends AppCompatActivity {
     private void setPw(String pw){
         this.pw = pw;
         ed_pw.setText(pw);
+    }
+    private String getBc(){
+        return this.bc;
+    }
+    private void setBc(String bc){
+        this.bc = bc;
+        ed_barcode.setText(bc);
+    }
+    private String getTt(){
+        return this.tt;
+    }
+    private void setTt(String tt){
+        this.tt = tt;
+        ed_title.setText(tt);
+    }
+    private String getKind(){
+        return this.kind;
+    }
+    private void setKind(String kind){
+        this.kind = kind;
+    }
+    public void setBarcodeid(String barcodeid) {
+        this.barcodeid = barcodeid;
+    }
+    public String getBarcodeid() {
+        return barcodeid;
     }
 
     private JSONObject parser(String json){
@@ -142,6 +172,82 @@ public class MainActivity extends AppCompatActivity {
 
         rest.get(3, params);
     }
+    private void barcode_reg(){
+        log("Action - barcode_reg");
+        class Parser extends Handler {
+            @Override
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+
+                String responseStr = Restful.getStr();
+
+                log("msg is " + msg.toString());
+                log("str is " + responseStr);
+            }
+        }
+        Parser h = new Parser();
+        Restful rest = new Restful(h);
+
+        String params = "?id=" + getId() +
+                "&password=" + getPw() +
+                "&barcode=" + ed_barcode.getText().toString() +
+                "&title=" + ed_title.getText().toString();
+        rest.get(4, params);
+    }
+    private void barcode_search(){
+        log("Action - barcode_search");
+        class Parser extends Handler{
+            @Override
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+
+                String responseStr = Restful.getStr();
+
+                log("msg is " + msg.toString());
+                log("str is " + responseStr);
+
+                try {
+                    JSONObject result = parser(responseStr);
+                    setTt(result.getString("title"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Parser h = new Parser();
+        Restful rest = new Restful(h);
+
+        String params = "?id=" + getId() +
+                "&password=" + getPw() +
+                "&barcode=" + ed_barcode.getText().toString();
+
+        rest.get(5, params);
+
+    }
+    private void barcode_rait(boolean gb){
+        log("Action - barcode_rait");
+        class Parser extends Handler {
+            @Override
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+
+                String responseStr = Restful.getStr();
+
+                log("msg is " + msg.toString());
+                log("str is " + responseStr);
+            }
+        }
+        Parser h = new Parser();
+        Restful rest = new Restful(h);
+
+        String params = "?id=" + getId() +
+                "&password=" + getPw() +
+                "&kind=" + getKind() +
+                "&barcodeid=" + 1 +
+                "&rait=" + gb;
+        rest.get(6, params);
+
+    }
 
     // 초기 시작시 뷰에 할당합니다.
     private void view_conn(){
@@ -160,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
         ed_pw = (EditText) findViewById(R.id.ed_pw);
         ed_barcode = (EditText) findViewById(R.id.ed_barcode);
         ed_title = (EditText) findViewById(R.id.ed_title);
+
+        kind = "raw";
 
 
         // 각 함수를 버튼에 할당합니다.
@@ -186,6 +294,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 user_edit();
+            }
+        });
+        btn_barcode_reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_reg();
+            }
+        });
+        btn_barcode_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_search();
+            }
+        });
+        btn_barcode_good.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_rait(true);
+            }
+        });
+        btn_barcode_bad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_rait(false);
             }
         });
     }
