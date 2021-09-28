@@ -211,7 +211,7 @@ exports.barcode_search = function(mysql, data){
     return result;
 }
 
-exports.barcode_rait = function(mysql, data){
+exports.barcode_rating = function(mysql, data){
     var result
     var qr
     var qr2
@@ -226,10 +226,10 @@ exports.barcode_rait = function(mysql, data){
         var user_num = value.result.num
         if(data.kind == 'raw'){
             qr = 'select * from barcode_rawdata where id=' + data.barcodeid + ';';
-            qr2 = 'select * from barcode_rait where user_num=' + user_num;
+            qr2 = 'select * from barcode_rating where user_num=' + user_num;
         }else if(data.kind == 'processed'){
             qr = 'select * from processed_data where id=' + data.barcodeid + ';';
-            qr2 = 'select * from processed_rait where user_num=' + user_num;
+            qr2 = 'select * from processed_rating where user_num=' + user_num;
         }else{
             result = {
                 error : true,
@@ -256,9 +256,9 @@ exports.barcode_rait = function(mysql, data){
             }else if(value.length != 0){
                 value = value[0]
                 if(data.kind == 'raw'){
-                    qr = 'UPDATE barcode_rait SET rait=' + data['rait'] + ' where num="' + value['num'] + '";';
+                    qr = 'UPDATE barcode_rating SET rating=' + data['rating'] + ' where num="' + value['num'] + '";';
                 }else{
-                    qr = 'UPDATE processed_rait SET rait=' + data['rait'] + ' where num="' + value['num'] + '";';
+                    qr = 'UPDATE processed_rating SET rating=' + data['rating'] + ' where num="' + value['num'] + '";';
                 }
                 console.log(qr);
                 value = mysql.query(qr);
@@ -277,9 +277,9 @@ exports.barcode_rait = function(mysql, data){
                 }
             }else{
                 if(data.kind == 'raw'){
-                    qr = 'insert into barcode_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
+                    qr = 'insert into barcode_rating VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rating + ', NOW());'
                 }else{
-                    qr = 'insert into processed_rait VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rait + ', NOW());'
+                    qr = 'insert into processed_rating VALUES(DEFAULT, ' + data.barcodeid + ', ' + user_num + ', ' + data.rating + ', NOW());'
                 }
 
                 value = mysql.query(qr);

@@ -23,8 +23,8 @@ function log(log){
 유저 - 등록 / 조회 / 정보수정
 
 바코드 data - 등록, 조회
-바코드 Raw Rait - 등록, 특정 raw의 Rait 평균, 수정 (유저 개인당 Rait는 1개로 배정하므로, 유저 개별 수정이 있어야함)
-└ 바코드 data와 RawRait는 가공된 테이블에 대하여도 동일하게 적용
+바코드 Raw rating - 등록, 특정 raw의 rating 평균, 수정 (유저 개인당 rating는 1개로 배정하므로, 유저 개별 수정이 있어야함)
+└ 바코드 data와 Rawrating는 가공된 테이블에 대하여도 동일하게 적용
 */
 
 
@@ -108,9 +108,9 @@ app.get(url['barcode-search'], function(req, res){
 	res.send(result)
 })
 // 바코드 평가
-app.get(url['barcode-rait'], function(req, res){
+app.get(url['barcode-rating'], function(req, res){
 	var data = req.query
-	var result = parser.barcode_rait(mysql, data)
+	var result = parser.barcode_rating(mysql, data)
 	log(result)
 
 	res.send(result)

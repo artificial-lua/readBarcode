@@ -75,19 +75,19 @@ ALTER TABLE barcode_rawdata COMMENT 'Barcode Rawdata';
 
 
 # rawdate에 대한 평가 테이블
-CREATE TABLE barcode_rait
+CREATE TABLE barcode_rating
 (
-    `num`       INT          NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
+    `num`       INT          NOT NULL    AUTO_INCREMENT COMMENT 'rating_Number', 
     `raw_id`    INT          NULL        COMMENT 'Raw_ID', 
     `user_num`  INT          NULL        COMMENT 'User_Number', 
-    `rait`      BIT          NULL        COMMENT 'Raw_Rait', 
+    `rating`      BIT          NULL        COMMENT 'Raw_rating', 
     `time`      TIMESTAMP    NULL        COMMENT 'Date_Time', 
-    CONSTRAINT PK_barcode_rait PRIMARY KEY (num),
+    CONSTRAINT PK_barcode_rating PRIMARY KEY (num),
     FOREIGN KEY (`raw_id`) REFERENCES `barcode_rawdata` (`id`),
     FOREIGN KEY (`user_num`) REFERENCES `user_information` (`num`)
 );
 
-ALTER TABLE barcode_rait COMMENT 'Barcode Rait';
+ALTER TABLE barcode_rating COMMENT 'Barcode rating';
 
 
 
@@ -100,8 +100,8 @@ CREATE TABLE processed_data
     `time`      TIMESTAMP      NULL        COMMENT 'Date_Time', 
     `title`     VARCHAR(45)    NULL        COMMENT 'Barcode_title', 
     `des`       VARCHAR(45)    NULL        COMMENT 'Descript', 
-    `good`      INT            NULL        COMMENT 'Rait_Good', 
-    `bad`       INT            NULL        COMMENT 'Rait_Bad', 
+    `good`      INT            NULL        COMMENT 'rating_Good', 
+    `bad`       INT            NULL        COMMENT 'rating_Bad', 
     CONSTRAINT PK_processed_data PRIMARY KEY (id)
 );
 
@@ -118,22 +118,22 @@ ALTER TABLE processed_data
 
 
 # 처리된 데이터에 대한 평가
-CREATE TABLE processed_rait
+CREATE TABLE processed_rating
 (
-    `num`         INT          NOT NULL    AUTO_INCREMENT COMMENT 'Rait_Number', 
+    `num`         INT          NOT NULL    AUTO_INCREMENT COMMENT 'rating_Number', 
     `barcode_id`  INT          NULL        COMMENT 'Barcode_ID', 
     `user_num`    INT          NULL        COMMENT 'User_Number', 
-    `rait`        BIT          NULL        COMMENT 'Rait', 
+    `rating`        BIT          NULL        COMMENT 'rating', 
     `time`        TIMESTAMP    NULL        COMMENT 'Date_Time', 
-    CONSTRAINT PK_processed_rait PRIMARY KEY (num)
+    CONSTRAINT PK_processed_rating PRIMARY KEY (num)
 );
 
-ALTER TABLE processed_rait COMMENT 'Processed Barcode Rait';
+ALTER TABLE processed_rating COMMENT 'Processed Barcode rating';
 
-ALTER TABLE processed_rait
-    ADD CONSTRAINT FK_processed_rait_barcode_id_processed_data_id FOREIGN KEY (barcode_id)
+ALTER TABLE processed_rating
+    ADD CONSTRAINT FK_processed_rating_barcode_id_processed_data_id FOREIGN KEY (barcode_id)
         REFERENCES processed_data (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE processed_rait
-    ADD CONSTRAINT FK_processed_rait_user_num_user_information_num FOREIGN KEY (user_num)
+ALTER TABLE processed_rating
+    ADD CONSTRAINT FK_processed_rating_user_num_user_information_num FOREIGN KEY (user_num)
         REFERENCES user_information (num) ON DELETE RESTRICT ON UPDATE RESTRICT;
