@@ -194,15 +194,6 @@ public class MainActivity extends AppCompatActivity {
     private void stringTTS(String stringToSpeak){
         // 나중엔 DB에서 받아온 제품명 등을 매개변수로 전달
 
-        // tts 초기화
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if ( i != ERROR){
-                    tts.setLanguage(Locale.KOREA);
-                }
-            }
-        });
 
         // tts 실행
         tts.speak(stringToSpeak, TextToSpeech.QUEUE_FLUSH, null);
@@ -235,10 +226,6 @@ public class MainActivity extends AppCompatActivity {
                 barcodeString = result.getContents();
                 setBc(barcodeString);
                 log(barcodeString);
-
-                // TTS 실행
-                stringTTS(barcodeString);
-
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -406,6 +393,20 @@ public class MainActivity extends AppCompatActivity {
                 barcode_rait(false);
             }
         });
+
+    }
+
+    // 초기 시작 메소드
+    private void onStarts(){
+        // tts 초기화
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if ( i != ERROR){
+                    tts.setLanguage(Locale.KOREA);
+                }
+            }
+        });
     }
 
     
@@ -415,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         view_conn();
+        onStarts();
         testing(); // testing() 함수는 테스트시만 실행합시다.
     }
 
