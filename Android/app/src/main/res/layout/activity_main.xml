@@ -151,18 +151,18 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/barcode_rait_good"
+                android:id="@+id/barcode_rating_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="barcode_rait_good" />
+                android:text="barcode_rating_good" />
 
             <Button
-                android:id="@+id/barcode_rait_bad"
+                android:id="@+id/barcode_rating_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="barcode_rait_bad" />
+                android:text="barcode_rating_bad" />
         </LinearLayout>
 
         <TextView

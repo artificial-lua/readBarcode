@@ -284,8 +284,8 @@ public class MainActivity extends AppCompatActivity {
         rest.get(5, params);
 
     }
-    private void barcode_rait(boolean gb){
-        log("Action - barcode_rait");
+    private void barcode_rating(boolean gb){
+        log("Action - barcode_rating");
         class Parser extends Handler {
             @Override
             public void handleMessage(@NonNull Message msg){
@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                 "&password=" + getPw() +
                 "&kind=" + getKind() +
                 "&barcodeid=" + 1 + //이부분 이부분 미우 중요함 바꿔야함 바코드 id를 search에서 받아왔을 때 가능한거임 실제로는 버튼만으로 작동하면 안된다
-                "&rait=" + gb;
+                "&rating=" + gb;
         rest.get(6, params);
     }
 
@@ -320,8 +320,8 @@ public class MainActivity extends AppCompatActivity {
         btn_read_title = (Button) findViewById(R.id.read_title);
         btn_barcode_reg = (Button) findViewById(R.id.barcode_reg);
         btn_barcode_search = (Button) findViewById(R.id.barcode_search);
-        btn_barcode_good = (Button) findViewById(R.id.barcode_rait_good);
-        btn_barcode_bad = (Button) findViewById(R.id.barcode_rait_bad);
+        btn_barcode_good = (Button) findViewById(R.id.barcode_rating_good);
+        btn_barcode_bad = (Button) findViewById(R.id.barcode_rating_bad);
 
         ed_id = (EditText) findViewById(R.id.ed_id);
         ed_pw = (EditText) findViewById(R.id.ed_pw);
@@ -384,13 +384,13 @@ public class MainActivity extends AppCompatActivity {
         btn_barcode_good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                barcode_rait(true);
+                barcode_rating(true);
             }
         });
         btn_barcode_bad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                barcode_rait(false);
+                barcode_rating(false);
             }
         });
 
