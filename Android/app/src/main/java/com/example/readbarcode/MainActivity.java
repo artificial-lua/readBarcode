@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_user_reload;
     Button btn_user_edit;
     Button btn_barcode_capture;
+    Button btn_read_title;
     Button btn_barcode_reg;
     Button btn_barcode_search;
     Button btn_barcode_good;
@@ -232,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 barcodeFormat = result.getFormatName();
                 barcodeString = result.getContents();
+                setBc(barcodeString);
+                log(barcodeString);
 
                 // TTS 실행
                 stringTTS(barcodeString);
@@ -327,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         btn_user_reload = (Button) findViewById(R.id.user_reload);
         btn_user_edit = (Button) findViewById(R.id.user_edit);
         btn_barcode_capture = (Button) findViewById(R.id.barcode_capture);
+        btn_read_title = (Button) findViewById(R.id.read_title);
         btn_barcode_reg = (Button) findViewById(R.id.barcode_reg);
         btn_barcode_search = (Button) findViewById(R.id.barcode_search);
         btn_barcode_good = (Button) findViewById(R.id.barcode_rait_good);
@@ -370,6 +374,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 barcode_capture();
+            }
+        });
+        btn_read_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stringTTS(getTt());
             }
         });
         btn_barcode_reg.setOnClickListener(new View.OnClickListener() {

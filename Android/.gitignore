@@ -15,6 +15,9 @@
 local.properties
 hosts.java
 caches
+/caches
+caches/*
+/caches/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,java

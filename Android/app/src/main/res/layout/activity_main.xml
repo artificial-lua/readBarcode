@@ -128,6 +128,12 @@
             android:text="barcode_capture" />
 
         <Button
+            android:id="@+id/read_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="read_title" />
+
+        <Button
             android:id="@+id/barcode_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
