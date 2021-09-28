@@ -6,7 +6,8 @@ function connection(json){
         port     : json['port'],
         user     : json['user'],
         password : json['password'],
-        database : json['db']
+        database : json['db'],
+        charset  : 'utf8'
     });
     return connection;
 }
