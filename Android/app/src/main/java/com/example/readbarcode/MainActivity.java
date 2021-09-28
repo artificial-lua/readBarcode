@@ -1,10 +1,16 @@
 package com.example.readbarcode;
 
+import static android.speech.tts.TextToSpeech.ERROR;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.speech.tts.TextToSpeech;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     // 선언부
@@ -37,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
     String bc;
     String tt;
     String kind;
+    String barcodeFormat;
+    String barcodeString;
     String barcodeid;
+
+    TextToSpeech tts;
 
     private String getId(){
         return this.id;
@@ -173,10 +188,60 @@ public class MainActivity extends AppCompatActivity {
 
         rest.get(3, params);
     }
+
+    // String을 인자로 받아 TTS 실행
+    private void stringTTS(String stringToSpeak){
+        // 나중엔 DB에서 받아온 제품명 등을 매개변수로 전달
+
+        // tts 초기화
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if ( i != ERROR){
+                    tts.setLanguage(Locale.KOREA);
+                }
+            }
+        });
+
+        // tts 실행
+        tts.speak(stringToSpeak, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    // 바코드 캡처 기능
     private void barcode_capture(){
         // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
         // 캡쳐된 넘버는 따로 어디로 받아놨는지 표시할 수 있도록
+
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("바코드 또는 QR코드를 인식합니다");
+        integrator.setCaptureActivity(ZxingActivity.class);
+        integrator.setOrientationLocked(false);
+        integrator.initiateScan();
+
     }
+
+    // 캡처가 완료되면 여기로 옵니다
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (result != null){
+            if(result.getContents() == null){
+                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                barcodeFormat = result.getFormatName();
+                barcodeString = result.getContents();
+
+                // TTS 실행
+                stringTTS(barcodeString);
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     private void barcode_reg(){
         log("Action - barcode_reg");
         class Parser extends Handler {
