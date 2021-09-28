@@ -2,7 +2,7 @@
 DROP DATABASE ReadBarcode;
 
 # DB생성 및 사용
-CREATE DATABASE ReadBarcode;
+CREATE DATABASE ReadBarcode DEFAULT CHARACTER SET utf8;
 use ReadBarcode;
 
 # 유저그룹 생성
