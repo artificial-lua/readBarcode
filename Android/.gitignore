@@ -20,6 +20,9 @@ caches/*
 /caches/*
 .tmp
 daemon
+/daemon
+daemon/*
+/daemon/*
 
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,java

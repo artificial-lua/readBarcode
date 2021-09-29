@@ -308,8 +308,46 @@ public class MainActivity extends AppCompatActivity {
         rest.get(6, params);
     }
 
-    // 초기 시작시 뷰에 할당합니다.
+    // 테스트가 아닐 때 초기 시작시 뷰에 할당합니다.
     private void view_conn(){
+        setContentView(R.layout.main);
+    }
+
+    // 초기 시작 메소드
+    private void onStarts(){
+        // tts 초기화
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if ( i != ERROR){
+                    tts.setLanguage(Locale.KOREA);
+                }
+            }
+        });
+    }
+
+    
+    // 초기 시작시 실행
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        testing(); // testing() 함수는 테스트시만 실행합시다.
+        if(!test){
+            view_conn();
+        }
+        onStarts();
+    }
+
+    
+    /*여기부터는 테스트를 위한 부분임*/
+    TextView log_text;
+    Boolean test;
+
+    public void testing(){
+        test = true;
+
+
         setContentView(R.layout.activity_main);
 
         btn_condition = (Button) findViewById(R.id.condition_check);
@@ -394,39 +432,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    // 초기 시작 메소드
-    private void onStarts(){
-        // tts 초기화
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if ( i != ERROR){
-                    tts.setLanguage(Locale.KOREA);
-                }
-            }
-        });
-    }
-
-    
-    // 초기 시작시 실행
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        view_conn();
-        onStarts();
-        testing(); // testing() 함수는 테스트시만 실행합시다.
-    }
-
-    
-    /*여기부터는 테스트를 위한 부분임*/
-    TextView log_text;
-    Boolean test;
-
-    public void testing(){
-        test = true;
         log_text = (TextView)findViewById(R.id.text_log);
         log_text.setMovementMethod(new ScrollingMovementMethod());
     }
@@ -435,14 +440,10 @@ public class MainActivity extends AppCompatActivity {
         return log_text.getText().toString();
     }
 
-    public void setLogs(String s){
-        log_text.setText(s);
-    }
-
     public void log(String s){
         if (test){
             System.out.println(s);
-            setLogs(getLogs() + "\n" + s);
+            log_text.setText(getLogs() + "\n" + s);
             Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }
     }
