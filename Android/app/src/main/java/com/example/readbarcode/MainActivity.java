@@ -5,6 +5,7 @@ import static android.speech.tts.TextToSpeech.ERROR;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean was_run;
     Boolean debug;
+
+    // ViewPager2 관련
+    ViewPager2 viewPager2;
+    MyViewPagerAdapter myViewPagerAdapter;
 
     private String getId(){
         return this.id;
@@ -382,11 +387,21 @@ public class MainActivity extends AppCompatActivity {
             setId(save.getString("id"));
             setPw(save.getString("pw"));
         }
+
+        // viewpager2 연결
+        viewPager2 = findViewById(R.id.main_viewpager);
+        myViewPagerAdapter = new MyViewPagerAdapter(this);
+        viewPager2.setAdapter(myViewPagerAdapter);
+
+        // viewpager2 세로모드
+        viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
     }
 
     // 테스트가 아닐 때 초기 시작시 뷰에 할당합니다.
     private void view_conn(){
         setContentView(R.layout.main);
+        /*
+        // capture_layout.xml 로 이동, CaptureFragment에 적용
         LinearLayout main_layout = (LinearLayout) findViewById(R.id.main_layout);
         main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -394,6 +409,8 @@ public class MainActivity extends AppCompatActivity {
                 barcode_capture();
             }
         });
+
+         */
     }
 
     
@@ -409,8 +426,8 @@ public class MainActivity extends AppCompatActivity {
         if(test){
             testing(); // testing() 함수는 테스트시만 실행합시다.
         }else{
-            onStarts();
             view_conn();
+            onStarts();
         }
     }
 
