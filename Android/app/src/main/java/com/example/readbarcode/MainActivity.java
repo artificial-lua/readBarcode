@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
+import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,34 +56,42 @@ public class MainActivity extends AppCompatActivity {
     String barcodeid;
 
     TextToSpeech tts;
+    Save save;
+
+    Boolean was_run;
+    Boolean debug;
 
     private String getId(){
         return this.id;
     }
     private void setId(String id){
         this.id = id;
-        ed_id.setText(id);
+        if(test)
+            ed_id.setText(id);
     }
     private String getPw(){
         return this.pw;
     }
     private void setPw(String pw){
         this.pw = pw;
-        ed_pw.setText(pw);
+        if(test)
+            ed_pw.setText(pw);
     }
     private String getBc(){
         return this.bc;
     }
     private void setBc(String bc){
         this.bc = bc;
-        ed_barcode.setText(bc);
+        if(test)
+            ed_barcode.setText(bc);
     }
     private String getTt(){
         return this.tt;
     }
     private void setTt(String tt){
         this.tt = tt;
-        ed_title.setText(tt);
+        if(test)
+            ed_title.setText(tt);
     }
     private String getKind(){
         return this.kind;
@@ -110,10 +120,68 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-    
 
+
+
+    // 바코드 캡처 기능
+    private void barcode_capture(){
+        // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
+        // 캡쳐된 넘버는 따로 어디로 받아놨는지 표시할 수 있도록
+
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("바코드 또는 QR코드를 인식합니다");
+        integrator.setCaptureActivity(ZxingActivity.class);
+        integrator.setOrientationLocked(false);
+        integrator.initiateScan();
+
+    }
+    // 캡처가 완료되면 여기로 옵니다
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (test) {
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+                } else {
+                    barcodeFormat = result.getFormatName();
+                    barcodeString = result.getContents();
+                    setBc(barcodeString);
+                    log(barcodeString);
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }else{
+            if (result != null) {
+                if (result.getContents() == null) {
+                    Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
+                } else {
+                    barcodeFormat = result.getFormatName();
+                    barcodeString = result.getContents();
+                    setBc(barcodeString);
+                    ((EditText)findViewById(R.id.main_barcode)).setText(barcodeString);
+                    barcode_search();
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+
+        }
+    }
+
+
+    private boolean error_check(JSONObject json) throws JSONException {
+        if(json.getBoolean("error")){
+            log(json.getString("message"));
+            return true;
+        }
+        return false;
+    }
     // 서버 컨디션을 체크하는 함수
-    private void condition_ckeck(){
+    private void condition_check(){
         log("Action - check condition");
         class Parser extends Handler{
             @Override
@@ -144,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject result = parser(responseStr);
                     setId(result.getString("id"));
                     setPw(result.getString("password"));
+                    save.setString("id", getId());
+                    save.setString("pw", getPw());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -192,44 +262,8 @@ public class MainActivity extends AppCompatActivity {
 
     // String을 인자로 받아 TTS 실행
     private void stringTTS(String stringToSpeak){
-        // 나중엔 DB에서 받아온 제품명 등을 매개변수로 전달
-
-
         // tts 실행
         tts.speak(stringToSpeak, TextToSpeech.QUEUE_FLUSH, null);
-    }
-
-    // 바코드 캡처 기능
-    private void barcode_capture(){
-        // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
-        // 캡쳐된 넘버는 따로 어디로 받아놨는지 표시할 수 있도록
-
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setPrompt("바코드 또는 QR코드를 인식합니다");
-        integrator.setCaptureActivity(ZxingActivity.class);
-        integrator.setOrientationLocked(false);
-        integrator.initiateScan();
-
-    }
-
-    // 캡처가 완료되면 여기로 옵니다
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-
-        if (result != null){
-            if(result.getContents() == null){
-                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                barcodeFormat = result.getFormatName();
-                barcodeString = result.getContents();
-                setBc(barcodeString);
-                log(barcodeString);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void barcode_reg(){
@@ -260,17 +294,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg){
                 super.handleMessage(msg);
+                if (test){
 
-                String responseStr = Restful.getStr();
+                    String responseStr = Restful.getStr();
 
-                log("msg is " + msg.toString());
-                log("str is " + responseStr);
+                    log("msg is " + msg.toString());
+                    log("str is " + responseStr);
 
-                try {
-                    JSONObject result = parser(responseStr);
-                    setTt(result.getString("title"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        JSONObject result = parser(responseStr);
+                        setTt(result.getString("title"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    try {
+                        JSONObject result = parser(Restful.getStr());
+                        if (result != null) {
+                            stringTTS(result.getString("title"));
+                            ((EditText)findViewById(R.id.main_name)).setText(result.getString("title"));
+                        }
+                        else {
+                            stringTTS("검색 결과가 없습니다.");
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -279,7 +328,9 @@ public class MainActivity extends AppCompatActivity {
 
         String params = "?id=" + getId() +
                 "&password=" + getPw() +
-                "&barcode=" + ed_barcode.getText().toString();
+                "&barcode=" + getBc();
+
+        log(params);
 
         rest.get(5, params);
 
@@ -308,13 +359,10 @@ public class MainActivity extends AppCompatActivity {
         rest.get(6, params);
     }
 
-    // 테스트가 아닐 때 초기 시작시 뷰에 할당합니다.
-    private void view_conn(){
-        setContentView(R.layout.main);
-    }
 
-    // 초기 시작 메소드
+    // 테스트가 아닐 때 초기 시작 메소드
     private void onStarts(){
+        save = new Save(this);
         // tts 초기화
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -322,6 +370,28 @@ public class MainActivity extends AppCompatActivity {
                 if ( i != ERROR){
                     tts.setLanguage(Locale.KOREA);
                 }
+            }
+        });
+        was_run = save.getBoolean("was_run");
+
+        if (!was_run){ // 처음 앱 실행 시 시작하는 구문
+            user_reg();
+            save.setBoolean("was_run", true);
+        }else{
+            log(getId() + getPw());
+            setId(save.getString("id"));
+            setPw(save.getString("pw"));
+        }
+    }
+
+    // 테스트가 아닐 때 초기 시작시 뷰에 할당합니다.
+    private void view_conn(){
+        setContentView(R.layout.main);
+        LinearLayout main_layout = (LinearLayout) findViewById(R.id.main_layout);
+        main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                barcode_capture();
             }
         });
     }
@@ -332,11 +402,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        testing(); // testing() 함수는 테스트시만 실행합시다.
-        if(!test){
+        test = false;
+        debug = true;
+
+        //
+        if(test){
+            testing(); // testing() 함수는 테스트시만 실행합시다.
+        }else{
+            onStarts();
             view_conn();
         }
-        onStarts();
     }
 
     
@@ -345,6 +420,18 @@ public class MainActivity extends AppCompatActivity {
     Boolean test;
 
     public void testing(){
+        save = new Save(this);
+        // tts 초기화
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if ( i != ERROR){
+                    tts.setLanguage(Locale.KOREA);
+                }
+            }
+        });
+        was_run = save.getBoolean("was_run");
+
         test = true;
 
 
@@ -374,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
         btn_condition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                condition_ckeck();
+                condition_check();
             }
         });
         btn_user_reg.setOnClickListener(new View.OnClickListener() {
@@ -441,6 +528,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void log(String s){
+        if(debug){
+            System.out.println(s);
+        }
         if (test){
             System.out.println(s);
             log_text.setText(getLogs() + "\n" + s);
