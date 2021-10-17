@@ -14,6 +14,9 @@ import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -400,6 +403,33 @@ public class MainActivity extends AppCompatActivity {
 
         // viewpager2 세로모드
         viewPager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+
+        // Log Gesture Detect 관련
+        /// GestureListener 객체 생성 후 GestureDetector에 등록
+        LogGestureListener gestureListener = new LogGestureListener();
+        GestureDetector logGestureDetector = new GestureDetector(this, gestureListener);
+
+        /// GestureListener에 ViewPager 연결
+        gestureListener.setViewPager(viewPager2);
+
+        /// 제스쳐 이벤트 등록
+        viewPager2.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                logGestureDetector.onTouchEvent(motionEvent);
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    // 스크롤 끝날 때 실행되는 부분
+                    LogGestureListener.isDistanceXOver20 = (Math.abs(LogGestureListener.distX) > 20? true : false);
+                    LogGestureListener.onScrollEnd(); // 스크롤 끝났을때 실행 메소드
+
+                    LogGestureListener.isScrollStart = false;
+
+                    Log.d("LogGestureListenr", "MotionEvent Action UP");
+                }
+                return false;
+            }
+        });
+
     }
 
     // 테스트가 아닐 때 초기 시작시 뷰에 할당합니다.
