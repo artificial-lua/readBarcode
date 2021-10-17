@@ -368,15 +368,7 @@ public class MainActivity extends AppCompatActivity {
     // 테스트가 아닐 때 초기 시작 메소드
     private void onStarts(){
         save = new Save(this);
-        // tts 초기화
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if ( i != ERROR){
-                    tts.setLanguage(Locale.KOREA);
-                }
-            }
-        });
+
         was_run = save.getBoolean("was_run");
 
         if (!was_run){ // 처음 앱 실행 시 시작하는 구문
@@ -387,6 +379,19 @@ public class MainActivity extends AppCompatActivity {
             setId(save.getString("id"));
             setPw(save.getString("pw"));
         }
+
+        UserInfo userInfo = new UserInfo(this);
+        userInfo.wasRun();
+
+        // tts 초기화
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if ( i != ERROR){
+                    tts.setLanguage(Locale.KOREA);
+                }
+            }
+        });
 
         // viewpager2 연결
         viewPager2 = findViewById(R.id.main_viewpager);

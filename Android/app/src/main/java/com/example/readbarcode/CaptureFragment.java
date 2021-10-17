@@ -4,6 +4,8 @@ import static android.speech.tts.TextToSpeech.ERROR;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +21,28 @@ import androidx.fragment.app.Fragment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 public class CaptureFragment extends Fragment {
+
+
+    EditText mainBarcode;
+    EditText mainName;
 
     View view;
     IntentIntegrator integrator;
 
     TextToSpeech tts;
+
+    String formatName;
+    String barcodeStr;
+
+    String errorMessage;
+
+    UserInfo userInfo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +57,9 @@ public class CaptureFragment extends Fragment {
                 }
             }
         });
+
+        userInfo = new UserInfo(getActivity());
+
 
     }
 
@@ -57,6 +76,12 @@ public class CaptureFragment extends Fragment {
                 barcode_capture();
             }
         });
+
+
+        mainBarcode = (EditText) view.findViewById(R.id.main_barcode);
+        mainName = (EditText) view.findViewById(R.id.main_name);
+
+
         return view;
     }
 
@@ -84,7 +109,105 @@ public class CaptureFragment extends Fragment {
                 // 캡처 오류, 취소 등
             } else {
                 // 캡처 성공 내용
+                // 받아온 바코드 데이터 변수에 저장
+                formatName = result.getFormatName();
+                barcodeStr = result.getContents();
+
+                // Set Barcode Number
+                mainBarcode.setText(barcodeStr);
+
+                barcode_search();
+
             }
         }
+    }
+
+    // JSON Parser
+    private JSONObject parser(String json){
+        try {
+            JSONObject response = new JSONObject(json);
+            if(response.getBoolean("error")){
+//                log("is error");
+//                throw new Exception();
+                errorMessage = response.getString("message");
+                return null;
+            }else{
+
+                return new JSONObject(response.getString("result"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // get barcode data
+    private void barcode_search(){
+//        log("Action - barcode_search");
+        class Parser extends Handler {
+            @Override
+            public void handleMessage(@NonNull Message msg){
+                super.handleMessage(msg);
+//                if (test){
+//
+//                    String responseStr = Restful.getStr();
+//
+//                    log("msg is " + msg.toString());
+//                    log("str is " + responseStr);
+//
+//                    try {
+//                        JSONObject result = parser(responseStr);
+//                        setTt(result.getString("title"));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }else{
+//                    try {
+//                        JSONObject result = parser(Restful.getStr());
+//                        if (result != null) {
+//                            stringTTS(result.getString("title"));
+//                            ((EditText)findViewById(R.id.main_name)).setText(result.getString("title"));
+//                        }
+//                        else {
+//                            stringTTS("검색 결과가 없습니다.");
+//                        }
+//                    }catch (JSONException e){
+//                        e.printStackTrace();
+//                    }
+//                }
+
+                try {
+                    JSONObject result = parser(Restful.getStr());
+                    if (result != null) {
+
+                        String resultTitle = result.getString("title");
+
+                        tts.speak(resultTitle, TextToSpeech.QUEUE_FLUSH, null);
+                        mainName.setText(resultTitle);
+                    }
+                    else {
+
+                        tts.speak("검색 결과가 없습니다.", TextToSpeech.QUEUE_FLUSH, null);
+                        mainName.setText("검색 결과가 없습니다. " + errorMessage);
+                    }
+
+                } catch (JSONException e){
+                    mainName.setText(e.getMessage());
+                    tts.speak("검색 과정 오류 발생", TextToSpeech.QUEUE_FLUSH, null);
+                    e.printStackTrace();
+                }
+            }
+        }
+        Parser h = new Parser();
+        Restful rest = new Restful(h);
+
+        String params = "?id=" + userInfo.ID +
+                "&password=" + userInfo.PW +
+                "&barcode=" + barcodeStr;
+
+//        log(params);
+
+        rest.get(5, params);
+
     }
 }
