@@ -96,7 +96,7 @@ public class LogFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if(tts.isSpeaking()){
-            tts.shutdown();
+            LogManager.tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
