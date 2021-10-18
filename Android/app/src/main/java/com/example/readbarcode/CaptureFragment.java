@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class CaptureFragment extends Fragment {
@@ -39,6 +42,8 @@ public class CaptureFragment extends Fragment {
 
     String formatName;
     String barcodeStr;
+
+    String datetime;
 
     String errorMessage;
 
@@ -85,6 +90,14 @@ public class CaptureFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // tts 끊기
+        LogManager.tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
+
+    }
+
     // 바코드 캡처 기능
     private void barcode_capture(){
         // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
@@ -109,6 +122,12 @@ public class CaptureFragment extends Fragment {
                 // 캡처 오류, 취소 등
             } else {
                 // 캡처 성공 내용
+                // 캡처 시간 저장
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                datetime = sdf.format(date);
+
                 // 받아온 바코드 데이터 변수에 저장
                 formatName = result.getFormatName();
                 barcodeStr = result.getContents();
@@ -127,8 +146,6 @@ public class CaptureFragment extends Fragment {
         try {
             JSONObject response = new JSONObject(json);
             if(response.getBoolean("error")){
-//                log("is error");
-//                throw new Exception();
                 errorMessage = response.getString("message");
                 return null;
             }else{
@@ -143,53 +160,38 @@ public class CaptureFragment extends Fragment {
 
     // get barcode data
     private void barcode_search(){
-//        log("Action - barcode_search");
         class Parser extends Handler {
             @Override
             public void handleMessage(@NonNull Message msg){
                 super.handleMessage(msg);
-//                if (test){
-//
-//                    String responseStr = Restful.getStr();
-//
-//                    log("msg is " + msg.toString());
-//                    log("str is " + responseStr);
-//
-//                    try {
-//                        JSONObject result = parser(responseStr);
-//                        setTt(result.getString("title"));
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }else{
-//                    try {
-//                        JSONObject result = parser(Restful.getStr());
-//                        if (result != null) {
-//                            stringTTS(result.getString("title"));
-//                            ((EditText)findViewById(R.id.main_name)).setText(result.getString("title"));
-//                        }
-//                        else {
-//                            stringTTS("검색 결과가 없습니다.");
-//                        }
-//                    }catch (JSONException e){
-//                        e.printStackTrace();
-//                    }
-//                }
+                String resultTitle = "";
+                boolean error;
+                String kind ="0";
 
                 try {
                     JSONObject result = parser(Restful.getStr());
                     if (result != null) {
-
-                        String resultTitle = result.getString("title");
-
+                        // return 받은 값이 있을 때
+                        resultTitle = result.getString("title");
+                        Log.d("After Capture", result.toString());
+                        Log.d("After Capture", resultTitle);
                         tts.speak(resultTitle, TextToSpeech.QUEUE_FLUSH, null);
                         mainName.setText(resultTitle);
+
+                        error = false;
                     }
                     else {
+                        error = true;
 
                         tts.speak("검색 결과가 없습니다.", TextToSpeech.QUEUE_FLUSH, null);
                         mainName.setText("검색 결과가 없습니다. " + errorMessage);
                     }
+
+                    // Log에 저장
+                    JSONObject jsonObject = LogManager.setLogJsonObject(barcodeStr, datetime, resultTitle, error, kind, userInfo.ID);
+                    LogManager.settingLogArray();
+                    LogManager.addToLogArray(jsonObject);
+                    LogManager.saveLog(LogManager.LOG_KEY);
 
                 } catch (JSONException e){
                     mainName.setText(e.getMessage());
@@ -205,7 +207,6 @@ public class CaptureFragment extends Fragment {
                 "&password=" + userInfo.PW +
                 "&barcode=" + barcodeStr;
 
-//        log(params);
 
         rest.get(5, params);
 

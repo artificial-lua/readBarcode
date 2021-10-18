@@ -62,6 +62,9 @@ public class LogFragment extends Fragment {
                 }
             }
         });
+
+        // LogManager에 Context Set
+        LogManager.setContext(getActivity());
     }
 
     @Nullable
@@ -82,8 +85,10 @@ public class LogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setLogArray();
-        testRun();
+//        setLogArray();
+//        testRun();
+        LogManager.settingLogArray();
+        LogManager.setLogToView(LogManager.MODE_DEFAULT);
 
     }
 

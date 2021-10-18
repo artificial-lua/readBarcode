@@ -37,9 +37,10 @@ public class LogGestureListener extends GestureDetector.SimpleOnGestureListener 
         // LogFragment를 길게 눌렀을 경우
         if (viewPager2.getCurrentItem() == 1){
             Log.d("LogGestureDetector", "onLongPress");
+            LogManager.sendLog();
         }
 
-        // TODO
+
     }
 
     @Override

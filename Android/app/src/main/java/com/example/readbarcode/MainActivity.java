@@ -370,18 +370,17 @@ public class MainActivity extends AppCompatActivity {
 
     // 테스트가 아닐 때 초기 시작 메소드
     private void onStarts(){
-        save = new Save(this);
-
-        was_run = save.getBoolean("was_run");
-
-        if (!was_run){ // 처음 앱 실행 시 시작하는 구문
-            user_reg();
-            save.setBoolean("was_run", true);
-        }else{
-            log(getId() + getPw());
-            setId(save.getString("id"));
-            setPw(save.getString("pw"));
-        }
+//        save = new Save(this);
+//        was_run = save.getBoolean("was_run");
+//
+//        if (!was_run){ // 처음 앱 실행 시 시작하는 구문
+//            user_reg();
+//            save.setBoolean("was_run", true);
+//        }else{
+//            log(getId() + getPw());
+//            setId(save.getString("id"));
+//            setPw(save.getString("pw"));
+//        }
 
         UserInfo userInfo = new UserInfo(this);
         userInfo.wasRun();
@@ -395,6 +394,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        LogManager.setTts(tts);
 
         // viewpager2 연결
         viewPager2 = findViewById(R.id.main_viewpager);
@@ -429,6 +430,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        LogManager.setContext(this);
 
     }
 
