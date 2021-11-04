@@ -41,9 +41,19 @@ exports.custom_check = function(str, injection_keywords) {
 
 // function, search injection keywords in string function, and return true if found
 function check_injection(str, injection_keywords) {
-    for (let i in injection_keywords) {
-        if (str.indexOf(injection_keywords[i]) != -1) {
-            return true;
+    // if str is array or json, recursively check each element
+    if (typeof str == "object") {
+        for (var i in str) {
+            if (check_injection(str[i], injection_keywords)) {
+                return true;
+            }
+        }
+    }
+    else {
+        for (let i in injection_keywords) {
+            if (str.indexOf(injection_keywords[i]) != -1) {
+                return true;
+            }
         }
     }
     return false;

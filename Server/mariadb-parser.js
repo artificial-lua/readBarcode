@@ -1,9 +1,24 @@
 const crypto = require('crypto');
 const { query } = require('express');
+// load custom module defence_sqlinjection.js as sqlinde
+const sqlinde = require('./defence_sqlinjection.js')
+
+error_code = {
+    SQL_Injection : "0x00009901"
+}
 
 exports.user_reg = function(mysql, data){
+    //check data.password about sql injection
+    if (sqlinde.default_check(data.password) == true){
+        return {
+            error : true,
+            msg : error_code.SQL_Injection
+        }
+    }
+
     var num = mysql.query('SELECT count(*) as userCount FROM user_information;')[0].userCount;
     num++;
+
     var hash = num + data['password'] + 'hash';
     hash = crypto.createHash('sha512').update(hash).digest('base64');
 
@@ -29,6 +44,13 @@ exports.user_reg = function(mysql, data){
 
 exports.user_search = user_search;
 function user_search(mysql, data){
+    // check all data about sql injection
+    if (sqlinde.default_check(data) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
     var value = mysql.query('Select * from user_information where id="' + data['id'] + '";')
     var result;
     if (value.length == 1){
@@ -59,6 +81,14 @@ function user_search(mysql, data){
 }
 
 function user_id_search(mysql, id){
+    // check id about sql injection
+    if (sqlinde.default_check(id) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
+
     var value = mysql.query('Select * from user_information where id="' + id + '";')
     var result;
     if (value.error == true){
@@ -85,6 +115,15 @@ function user_id_search(mysql, id){
 }
 
 exports.user_edit = function(mysql, data, blacklist){
+    // check all data about sql injection
+    if (sqlinde.default_check(data) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
+
+
     var result;
 
 
@@ -151,6 +190,13 @@ exports.user_edit = function(mysql, data, blacklist){
 }
 
 exports.barcode_reg = function(mysql, data){
+    // check all data about sql injection
+    if (sqlinde.default_check(data) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
     var value = user_search(mysql, data)
 
     var result
@@ -181,6 +227,13 @@ exports.barcode_reg = function(mysql, data){
 }
 
 exports.barcode_search = function(mysql, data){
+    // check all data about sql injection
+    if (sqlinde.default_check(data) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
     var result = user_search(mysql, data)
     if (result.error) {
         
@@ -212,6 +265,14 @@ exports.barcode_search = function(mysql, data){
 }
 
 exports.barcode_rating = function(mysql, data){
+    // check all data about sql injection
+    if (sqlinde.default_check(data) == true){
+        return {
+            error : true,
+            message : error_code.SQL_Injection
+        }
+    }
+    
     var result
     var qr
     var qr2
