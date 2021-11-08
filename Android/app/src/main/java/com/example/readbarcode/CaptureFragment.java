@@ -49,6 +49,9 @@ public class CaptureFragment extends Fragment {
 
     UserInfo userInfo;
 
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +90,8 @@ public class CaptureFragment extends Fragment {
         mainName = (EditText) view.findViewById(R.id.main_name);
 
 
+
+
         return view;
     }
 
@@ -94,7 +99,10 @@ public class CaptureFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // tts 끊기
-        LogManager.tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
+//        LogManager.tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
+
+        // 화면 전환 TTS
+        LogManager.tts.speak("캡처화면", TextToSpeech.QUEUE_FLUSH, null);
 
     }
 
@@ -102,6 +110,9 @@ public class CaptureFragment extends Fragment {
     private void barcode_capture(){
         // 여기에 바코드 카메라로 캡쳐 기능을 넣으시오
         // 캡쳐된 넘버는 따로 어디로 받아놨는지 표시할 수 있도록
+
+        // 화면 전환 TTS
+        LogManager.tts.speak("캡처시작", TextToSpeech.QUEUE_ADD, null);
 
         integrator = new IntentIntegrator(getActivity()).forSupportFragment(this);
         integrator.setPrompt("바코드 또는 QR코드를 인식합니다");
@@ -175,7 +186,7 @@ public class CaptureFragment extends Fragment {
                         resultTitle = result.getString("title");
                         Log.d("After Capture", result.toString());
                         Log.d("After Capture", resultTitle);
-                        tts.speak(resultTitle, TextToSpeech.QUEUE_FLUSH, null);
+                        LogManager.tts.speak(resultTitle, TextToSpeech.QUEUE_FLUSH, null);
                         mainName.setText(resultTitle);
 
                         error = false;
@@ -183,7 +194,7 @@ public class CaptureFragment extends Fragment {
                     else {
                         error = true;
 
-                        tts.speak("검색 결과가 없습니다.", TextToSpeech.QUEUE_FLUSH, null);
+                        LogManager.tts.speak("검색 결과가 없습니다.", TextToSpeech.QUEUE_FLUSH, null);
                         mainName.setText("검색 결과가 없습니다. " + errorMessage);
                     }
 
@@ -195,7 +206,7 @@ public class CaptureFragment extends Fragment {
 
                 } catch (JSONException e){
                     mainName.setText(e.getMessage());
-                    tts.speak("검색 과정 오류 발생", TextToSpeech.QUEUE_FLUSH, null);
+                    LogManager.tts.speak("검색 과정 오류 발생", TextToSpeech.QUEUE_FLUSH, null);
                     e.printStackTrace();
                 }
             }

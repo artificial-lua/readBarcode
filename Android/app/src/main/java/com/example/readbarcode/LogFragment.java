@@ -87,8 +87,15 @@ public class LogFragment extends Fragment {
         super.onResume();
 //        setLogArray();
 //        testRun();
+
+        // 화면 전환 TTS
+        LogManager.tts.speak("로그화면", TextToSpeech.QUEUE_FLUSH, null);
+
+
         LogManager.settingLogArray();
         LogManager.setLogToView(LogManager.MODE_DEFAULT);
+
+
 
     }
 
