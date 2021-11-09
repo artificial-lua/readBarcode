@@ -254,7 +254,8 @@ exports.barcode_search = function(mysql, data){
                     result : value[0]
                 }
             }else{
-                crawlering(data.barcode).then(function(value){
+                const title = crawlering(data.barcode).then().catch(function(err){});
+                if(title != null){
                     result = {
                         error : false,
                         result : {
@@ -262,16 +263,15 @@ exports.barcode_search = function(mysql, data){
                             raw : data.barcode,
                             user_num : '',
                             time : '',
-                            title : value,
+                            title : title,
                             des : ''
                         }
                     }
-                }).catch(function(err){
+                }else{
                     result = {
                         error : true,
-                        message : "Server error"
+                        message : "no item"
                     }
-                });
             }
         }
     }
