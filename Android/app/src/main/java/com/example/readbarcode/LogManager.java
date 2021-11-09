@@ -206,7 +206,9 @@ public class LogManager {
             Log.d("shortDateTime" , shortDateTime);
 
             // title / dateTime 읽어주기
-            tts.speak(titleToSpeak, TextToSpeech.QUEUE_FLUSH, null);
+//            tts.speak(titleToSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            // 화면전환 tts 때문에 QUEUE -> ADD 로 변경
+            tts.speak(titleToSpeak, TextToSpeech.QUEUE_ADD, null);
             tts.speak(shortDateTime, TextToSpeech.QUEUE_ADD, null);
 
         } catch(Exception e){
