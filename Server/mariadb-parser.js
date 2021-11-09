@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const { query } = require('express');
 // load custom module defence_sqlinjection.js as sqlinde
 const sqlinde = require('./defence_sqlinjection.js')
+const { crawlering } = require('./rest.js')
 
 error_code = {
     SQL_Injection : "0x00009901"
@@ -248,6 +249,17 @@ exports.barcode_search = function(mysql, data){
             }
         }else{
             if (value.length == 0){
+                rawlering(data.barcode).then(function(data){
+                    result = {
+                        error : false,
+                        result : data
+                    }
+                }).catch(function(err){
+                    result = {
+                        error : true,
+                        message : "Server error"
+                    }
+                });
                 result = {
                     error : true,
                     message : "no item"
