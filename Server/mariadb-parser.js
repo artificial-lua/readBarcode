@@ -248,9 +248,13 @@ exports.barcode_search = function(mysql, data){
                 message : "DB error"
             }
         }else{
-            console.log('searching')
-            if (value.length == 0){
-                crawlering(data.barcode).then(function(data){
+            if (value.length != 0){
+                result = {
+                    error : false,
+                    result : value[0]
+                }
+            }else{
+                crawlering(data.barcode).then(function(value){
                     result = {
                         error : false,
                         result : {
@@ -258,7 +262,7 @@ exports.barcode_search = function(mysql, data){
                             raw : data.barcode,
                             user_num : '',
                             time : '',
-                            title : data,
+                            title : value,
                             des : ''
                         }
                     }
@@ -268,11 +272,6 @@ exports.barcode_search = function(mysql, data){
                         message : "Server error"
                     }
                 });
-            }else{
-                result = {
-                    error : false,
-                    result : value[0]
-                }
             }
         }
     }
