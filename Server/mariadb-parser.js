@@ -248,6 +248,7 @@ exports.barcode_search = function(mysql, data){
                 message : "DB error"
             }
         }else{
+            console.log('searching')
             if (value.length == 0){
                 crawlering(data.barcode).then(function(data){
                     result = {
