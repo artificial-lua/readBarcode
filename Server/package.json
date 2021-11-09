@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "sync-mysql": "^3.0.1"
+    "sync-mysql": "^3.0.1",
+    "xhr2": "^0.2.1"
   }
 }
