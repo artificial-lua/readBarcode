@@ -252,7 +252,14 @@ exports.barcode_search = function(mysql, data){
                 crawlering(data.barcode).then(function(data){
                     result = {
                         error : false,
-                        result : data
+                        result : {
+                            id : '',
+                            raw : data.barcode,
+                            user_num : '',
+                            time : '',
+                            title : data,
+                            des : ''
+                        }
                     }
                 }).catch(function(err){
                     result = {
