@@ -260,10 +260,6 @@ exports.barcode_search = function(mysql, data){
                         message : "Server error"
                     }
                 });
-                result = {
-                    error : true,
-                    message : "no item"
-                }
             }else{
                 result = {
                     error : false,
