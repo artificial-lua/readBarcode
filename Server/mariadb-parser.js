@@ -272,6 +272,7 @@ exports.barcode_search = function(mysql, data){
                         error : true,
                         message : "no item"
                     }
+                }
             }
         }
     }
