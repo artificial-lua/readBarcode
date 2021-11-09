@@ -264,7 +264,7 @@ exports.barcode_search = async function(mysql, data){
                             raw : data.barcode,
                             user_num : '',
                             time : '',
-                            title : await title,
+                            title : title,
                             des : ''
                         }
                     }
@@ -278,7 +278,7 @@ exports.barcode_search = async function(mysql, data){
         }
     }
 
-    return await result;
+    return result;
 }
 
 exports.barcode_rating = function(mysql, data){

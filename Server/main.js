@@ -100,9 +100,9 @@ app.get(url['barcode-reg'], function(req, res){
 	res.send(result)
 })
 // 바코드 조회
-app.get(url['barcode-search'], function(req, res){
+app.get(url['barcode-search'], async function(req, res){
 	var data = req.query
-	var result = parser.barcode_search(mysql, data)
+	var result = await parser.barcode_search(mysql, data)
 	log(result)
 
 	res.send(result)
