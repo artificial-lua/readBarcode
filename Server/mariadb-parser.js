@@ -227,7 +227,7 @@ exports.barcode_reg = function(mysql, data){
     return result;
 }
 
-exports.barcode_search = function(mysql, data){
+exports.barcode_search = async function(mysql, data){
     // check all data about sql injection
     if (sqlinde.default_check(data) == true){
         return {
@@ -254,7 +254,7 @@ exports.barcode_search = function(mysql, data){
                     result : value[0]
                 }
             }else{
-                const title = crawlering(data.barcode).then().catch(function(err){});
+                const title = await crawlering(data.barcode).then().catch(function(err){});
                 console.log(title);
                 if(title != null){
                     result = {
