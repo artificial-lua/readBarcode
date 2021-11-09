@@ -255,6 +255,7 @@ exports.barcode_search = function(mysql, data){
                 }
             }else{
                 const title = crawlering(data.barcode).then().catch(function(err){});
+                console.log(title);
                 if(title != null){
                     result = {
                         error : false,
