@@ -249,7 +249,7 @@ exports.barcode_search = function(mysql, data){
             }
         }else{
             if (value.length == 0){
-                rawlering(data.barcode).then(function(data){
+                crawlering(data.barcode).then(function(data){
                     result = {
                         error : false,
                         result : data
