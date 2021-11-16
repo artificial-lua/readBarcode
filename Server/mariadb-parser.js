@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const { query } = require('express');
 // load custom module defence_sqlinjection.js as sqlinde
 const sqlinde = require('./defence_sqlinjection.js')
-const { crawlering } = require('./rest.js')
+const { crawling_beepscan, crawling_foodsafetykorea } = require('./rest.js')
 
 error_code = {
     SQL_Injection : "0x00009901"
@@ -254,24 +254,26 @@ exports.barcode_search = async function(mysql, data){
                     result : value[0]
                 }
             }else{
-                const title = await crawlering(data.barcode).then().catch(function(err){});
-                console.log(title);
-                if(title != null){
-                    result = {
-                        error : false,
-                        result : {
-                            id : '',
-                            raw : data.barcode,
-                            user_num : '',
-                            time : '',
-                            title : title,
-                            des : ''
+                {
+                    const title = await crawling_beepscan(data.barcode).then().catch(function(err){});
+                    console.log(title);
+                    if(title != null){
+                        result = {
+                            error : false,
+                            result : {
+                                id : '',
+                                raw : data.barcode,
+                                user_num : '',
+                                time : '',
+                                title : title,
+                                des : ''
+                            }
                         }
-                    }
-                }else{
-                    result = {
-                        error : true,
-                        message : "no item"
+                    }else{
+                        result = {
+                            error : true,
+                            message : "no item"
+                        }
                     }
                 }
             }
