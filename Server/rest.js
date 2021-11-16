@@ -28,7 +28,7 @@ function getTitle(str){
 }
 
 
-//function crawlering
+//function crawling
 function crawling(barcode, url){
     const result = rest(url + barcode, "GET").then();
     return result;
@@ -41,22 +41,22 @@ async function crawling_beepscan(barcode){
 exports.crawling_beepscan = crawling_beepscan;
 
 async function crawling_foodsafetykorea(barcode){
-    const result = JSON.parse(await crawling(barcode, ));
-    if(result.C005.RESULT.CODE == 'INFO-200'){
-        return null;
-    }else{
-        return result.C005.row.pop().PRDLST_NM;
-    }
+    // const result = JSON.parse(await crawling(barcode, ));
+    // if(result.C005.RESULT.CODE == 'INFO-200'){
+    //     return null;
+    // }else{
+    //     return result.C005.row.pop().PRDLST_NM;
+    // }
+    return "testing code";
 }
 
 exports.crawling_foodsafetykorea = crawling_foodsafetykorea;
 
 async function main(){
-    barcode = "12344321";
+    barcode = "8801115111030";
 
-    let result = await crawling_foodsafetykorea(barcode);
-
-    result = await crawling_beepscan(barcode);
+    // console.log(await crawling_foodsafetykorea(barcode));
+    console.log(await crawling_beepscan(barcode));
 }
 
 main();
