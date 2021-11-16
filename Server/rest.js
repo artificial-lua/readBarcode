@@ -30,33 +30,33 @@ function getTitle(str){
 
 //function crawlering
 function crawling(barcode, url){
-    const result = rest(url + barcode, "GET").then(function(response){
-        let title = getTitle(response);
-        if(title != null){
-            return title;
-        }else{
-            return null;
-        }
-    });
+    const result = rest(url + barcode, "GET").then();
     return result;
 }
 
-function crawling_beepscan(barcode){
-    return crawling(barcode, "https://www.beepscan.com/barcode/");
+async function crawling_beepscan(barcode){
+    return getTitle(await crawling(barcode, "https://www.beepscan.com/barcode/"));
 }
 
 exports.crawling_beepscan = crawling_beepscan;
 
-function crawling_foodsafetykorea(barcode){
-    const result = ""
-
-    return result;
+async function crawling_foodsafetykorea(barcode){
+    const result = JSON.parse(await crawling(barcode, ));
+    if(result.C005.RESULT.CODE == 'INFO-200'){
+        return null;
+    }else{
+        return result.C005.row.pop().PRDLST_NM;
+    }
 }
 
 exports.crawling_foodsafetykorea = crawling_foodsafetykorea;
 
 async function main(){
-    console.log("result : " + (await crawling_foodsafetykorea("8801115111030")));
+    barcode = "12344321";
+
+    let result = await crawling_foodsafetykorea(barcode);
+
+    result = await crawling_beepscan(barcode);
 }
 
 main();

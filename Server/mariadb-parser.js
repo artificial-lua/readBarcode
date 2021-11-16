@@ -255,7 +255,7 @@ exports.barcode_search = async function(mysql, data){
                 }
             }else{
                 {
-                    const title = await crawling_beepscan(data.barcode).then().catch(function(err){});
+                    let title = await crawling_beepscan(data.barcode).then().catch(function(err){});
                     console.log(title);
                     if(title != null){
                         result = {
@@ -270,9 +270,25 @@ exports.barcode_search = async function(mysql, data){
                             }
                         }
                     }else{
-                        result = {
-                            error : true,
-                            message : "no item"
+                        title = await crawling_foodsafetykorea(data.barcode);
+                        if(title != null){
+                            result = {
+                                error : false,
+                                result : {
+                                    id : '',
+                                    raw : data.barcode,
+                                    user_num : '',
+                                    time : '',
+                                    title : title,
+                                    des : ''
+                                }
+                            }
+                        }else{
+
+                            result = {
+                                error : true,
+                                message : "no item"
+                            }
                         }
                     }
                 }
