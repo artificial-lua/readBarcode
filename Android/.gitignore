@@ -263,4 +263,4 @@ fabric.properties
 daemon
 daemon/*
 
-Hosts.java
+*/Hosts.java
