@@ -56,15 +56,9 @@ CREATE UNIQUE INDEX UQ_information_1
     ON user_information(id);
 
     
-INSERT INTO user_information
-    (id, signup, group, hash)
-VALUES
-    ('crawler', NOW(), 1, ".");
+INSERT INTO user_information VALUES (DEFAULT, 'crawler', NOW(), 1, '');
 
-INSERT INTO user_information
-    (id, signup, group, hash)
-VALUES
-    ('API', NOW(), 1, ".");
+INSERT INTO user_information VALUES (DEFAULT, 'API', NOW(), 1, '');
 
 
 
