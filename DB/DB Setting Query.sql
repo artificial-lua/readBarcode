@@ -55,6 +55,17 @@ ALTER TABLE user_information COMMENT 'User Information';
 CREATE UNIQUE INDEX UQ_information_1
     ON user_information(id);
 
+    
+INSERT INTO user_information
+    (id, signup, group, hash)
+VALUES
+    ('crawler', NOW(), 1, ".");
+
+INSERT INTO user_information
+    (id, signup, group, hash)
+VALUES
+    ('API', NOW(), 1, ".");
+
 
 
 # 바코드 등록된 기본 데이터 테이블 생성
