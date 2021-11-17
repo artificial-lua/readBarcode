@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const { query } = require('express');
 // load custom module defence_sqlinjection.js as sqlinde
 const sqlinde = require('./defence_sqlinjection.js')
-const { crawling_beepscan, crawling_foodsafetykorea } = require('./rest.js')
+const { Crawler } = require('./rest.js')
 
 error_code = {
     SQL_Injection : "0x00009901"
@@ -255,7 +255,8 @@ exports.barcode_search = async function(mysql, data){
                 }
             }else{
                 {
-                    let title = await crawling_beepscan(data.barcode).then().catch(function(err){});
+                    crawler = new Crawler();
+                    let title = await crawler.get[0](data.barcode);
                     console.log(title);
                     if(title != null){
                         result = {
@@ -270,7 +271,7 @@ exports.barcode_search = async function(mysql, data){
                             }
                         }
                     }else{
-                        title = await crawling_foodsafetykorea(data.barcode);
+                        title = await crawler.get[1](data.barcode);
                         if(title != null){
                             result = {
                                 error : false,
