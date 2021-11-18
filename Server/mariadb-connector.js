@@ -40,7 +40,7 @@ exports.update = function(db, data){
     return "temp"
 }
 
-const mysql2 = require('mysql2/promise');
+const mysql = require('mysql2/promise');
 
 class DB_master{
     constructor(json){
@@ -75,8 +75,8 @@ class DB_master{
             str += query.limit;
         }
 
-        console.log('[' + new Date() + ']::' + str);
-        const pool = await mysql2.createPool(this.config);
+        console.log('[' + new Date() + ']' + str);
+        const pool = await mysql.createPool(this.config);
         const data = await pool.query(str, values);
         
         pool.end();
@@ -106,10 +106,10 @@ class DB_master{
         str = str.slice(0, -2);
         str += `)`;
 
-        console.log('[' + new Date() + ']::' + str);
+        console.log('[' + new Date() + ']' + str);
         return new Promise(async (resolve, reject) => {
             try{
-                const pool = await mysql2.createPool(this.config);
+                const pool = await mysql.createPool(this.config);
                 const data = await pool.query(str, datas);
 
                 pool.end();
@@ -119,6 +119,23 @@ class DB_master{
                 reject(e);
             }
         });
+    }
+
+    async count(query){
+        let str = `SELECT count(*) as count FROM `
+        str += query.table;
+        const values = [];
+        if (query.where){
+            str += ` WHERE `
+            str += query.where.query + `=?`;
+            values.push(query.where.value);
+        }
+
+        const pool = await mysql.createPool(this.config);
+        const data = await pool.query(str, values);
+        pool.end();
+
+        return data[0][0].count;
     }
 }
 
@@ -140,8 +157,17 @@ async function main(){
     console.log(data);
 
 
-    const data2 = await db.insert({
+    // const data2 = await db.insert({
+    //     table : "user_information",
+    //     values : ['default', "user11", "NOW()", 3, null]
+    // });
+
+    const data3 = await db.count({
         table : "user_information",
-        values : ['default', "user9", "NOW()", 3, null]
+        where : {
+            query : "id",
+            value : "user3"
+        }
     });
+    console.log(data3);
 }
