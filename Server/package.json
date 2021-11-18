@@ -5,8 +5,10 @@
   "main": "main.js",
   "scripts": {
     "test": "node main.js",
-    "start": "pm2 start main.js --watch -o ./log.txt",
-    "stop" : "pm2 delete all"
+    "start": "pm2 start main.js --watch",
+    "stop" : "pm2 stop all",
+    "delete" : "pm2 delete all",
+    "logs" : "pm2 logs main"
   },
   "author": "",
   "license": "ISC",
