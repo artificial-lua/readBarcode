@@ -40,7 +40,7 @@ exports.update = function(db, data){
     return "temp"
 }
 
-const mysql = require('mysql2/promise');
+const mysql2 = require('mysql2/promise');
 
 class DB_master{
     constructor(json){
@@ -75,8 +75,8 @@ class DB_master{
             str += query.limit;
         }
 
-        console.log('[' + new Date() + ']' + str);
-        const pool = await mysql.createPool(this.config);
+        console.log('[' + new Date() + ']::' + str);
+        const pool = await mysql2.createPool(this.config);
         const data = await pool.query(str, values);
         
         pool.end();
@@ -106,10 +106,10 @@ class DB_master{
         str = str.slice(0, -2);
         str += `)`;
 
-        console.log('[' + new Date() + ']' + str);
+        console.log('[' + new Date() + ']::' + str);
         return new Promise(async (resolve, reject) => {
             try{
-                const pool = await mysql.createPool(this.config);
+                const pool = await mysql2.createPool(this.config);
                 const data = await pool.query(str, datas);
 
                 pool.end();
