@@ -6,11 +6,14 @@ const app = express()
 config = require('./config-decoder').open('./config.json')
 db = config['db'];
 port = config['port']
-mysql = require('./mariadb-connector').connection(db);
-parser = require('./mariadb-parser');
+// mysql = require('./mariadb-connector').connection(db);
+// parser = require('./mariadb-parser');
+const { barcode_db_connector } = require('./maria_db_custom.js');
 debug = config['debug']
 url = config['url']
 blacklist = config['black-list']
+
+const db_connector = new barcode_db_connector(db, true);
 
 function log(log){
 	log = "[" + new Date() + "]::" + JSON.stringify(log)
@@ -43,13 +46,22 @@ function log(log){
 	}
 }
 */
-app.get(url['user-reg'], function(req, res) {
-	var data = req.query
-	log(data)
-
-	var result = parser.user_reg(mysql, data);
-	log(result)
-	res.send(result)
+app.get(url['user-reg'], async function(req, res) {
+	await db_connector.user_new(req.query).then(function(result){
+		result = {
+			error : false,
+			result : result
+		}
+		log("send to client", result)
+		res.send(result);
+	}).catch(function(err){
+		log(err);
+		result = {
+			error : true,
+			result : err
+		}
+		res.send(result);
+	})
 })
 /* 유저 조회
 {
@@ -64,15 +76,12 @@ id로 검색하여 password 리턴받음
 }
 */
 app.get(url['user-search'], function(req, res) {
-	var data = req.query
-	var result = parser.user_search(mysql, data)
-	result = {
-		error : result.error,
-		message : result.message
-	}
-	log(result)
-
-	res.send(result)
+	db_connector.user_search(req.query).then(function(result){
+		res.send(result);
+	}).catch(function(err){
+		log(err);
+		res.send("incorrect user");
+	})
 })
 /* 유저 수정
 {
@@ -83,38 +92,54 @@ app.get(url['user-search'], function(req, res) {
 */
 app.get(url['user-edit'], function(req, res) {
 	var data = req.query
-	var result = parser.user_edit(mysql, data, blacklist)
-	log(result)
-
-	res.send(result)
+	//if data has edit-id, then update id
+	if (data['edit-id'] != undefined){
+		db_connector.user_edit(data).then(function(result){
+			res.send(result);
+		}).catch(function(err){
+			log(err);
+			res.send("error");
+		})
+	}else if (data['edit-password'] != undefined){
+		db_connector.user_edit_password(data).then(function(result){
+			res.send(result);
+		}).catch(function(err){
+			log(err);
+			res.send("error");
+		})
+	}else{
+		res.send("error");
+	}
 })
 
 // 바코드
 // 바코드 입력
 app.get(url['barcode-reg'], function(req, res){
-	var data = req.query
-	log(data)
-	var result = parser.barcode_reg(mysql, data)
-	log(result)
-
-	res.send(result)
+	db_connector.barcode_new(req.query).then(function(result){
+		res.send(result);
+	}).catch(function(err){
+		log(err);
+		res.send("error");
+	});
 })
+
 // 바코드 조회
 app.get(url['barcode-search'], async function(req, res){
-	var data = req.query
-	var result = await parser.barcode_search(mysql, data)
-	log(result)
-
-	res.send(result)
+	db_connector.barcode_search(req.query).then(function(result){
+		res.send(result);
+	}).catch(function(err){
+		log(err);
+		res.send("error");
+	});
 })
 // 바코드 평가
-app.get(url['barcode-rating'], function(req, res){
-	var data = req.query
-	var result = parser.barcode_rating(mysql, data)
-	log(result)
+// app.get(url['barcode-rating'], function(req, res){
+// 	var data = req.query
+// 	var result = parser.barcode_rating(mysql, data)
+// 	log(result)
 
-	res.send(result)
-})
+// 	res.send(result)
+// })
 
 
 /*  서버 컨디션 체크
