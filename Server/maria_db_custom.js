@@ -34,13 +34,9 @@ class barcode_db_connector{
                 table: 'user_information',
                 values: ['DEFAULT', new_user_id, 'NOW()', 3, hash]
             }).then(() => {
-                let result = {
-                    id: new_user_id,
-                    password: json.password
-                }
-                resolve(result);
+                resolve(new_user_id);
             }).catch(err => {
-                reject("user_new error : " + err);
+                reject("user_new error");
             });
         });
     }
@@ -168,6 +164,7 @@ class barcode_db_connector{
                 }).then(data => {
                     resolve(data);
                 }).catch(err => {
+                    this.conn.err(err);
                     reject(err);
                 });
             }else{

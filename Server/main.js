@@ -9,11 +9,13 @@ port = config['port']
 // mysql = require('./mariadb-connector').connection(db);
 // parser = require('./mariadb-parser');
 const { barcode_db_connector } = require('./maria_db_custom.js');
+const { Crawler } = require('./rest.js')
 debug = config['debug']
 url = config['url']
 blacklist = config['black-list']
 
 const db_connector = new barcode_db_connector(db, true);
+crawler = new Crawler();
 
 function log(log){
 	log = "[" + new Date() + "]::" + JSON.stringify(log)
@@ -47,12 +49,15 @@ function log(log){
 }
 */
 app.get(url['user-reg'], async function(req, res) {
-	await db_connector.user_new(req.query).then(function(result){
-		result = {
+	await db_connector.user_new(req.query).then(function(new_user_id){
+		const result = {
+			type : 'user-reg',
 			error : false,
-			result : result
+			result : {
+				id : new_user_id,
+				password : req.query.password
+			}
 		}
-		log("send to client", result)
 		res.send(result);
 	}).catch(function(err){
 		log(err);
@@ -94,18 +99,34 @@ app.get(url['user-edit'], function(req, res) {
 	var data = req.query
 	//if data has edit-id, then update id
 	if (data['edit-id'] != undefined){
-		db_connector.user_edit(data).then(function(result){
+		db_connector.user_edit(data).then(function(data){
+			const result = {
+				type : 'user-edit-id',
+				error : false
+			}
 			res.send(result);
 		}).catch(function(err){
-			log(err);
-			res.send("error");
+			const result = {
+				type : 'user-edit-id',
+				error : true,
+				message : err
+			}
+			res.send(result);
 		})
 	}else if (data['edit-password'] != undefined){
-		db_connector.user_edit_password(data).then(function(result){
+		db_connector.user_edit_password(data).then(function(data){
+			const result = {
+				type : 'user-edit-password',
+				error : false
+			}
 			res.send(result);
 		}).catch(function(err){
-			log(err);
-			res.send("error");
+			const result = {
+				type : 'user-edit-password',
+				error : true,
+				message : err
+			}
+			res.send(result);
 		})
 	}else{
 		res.send("error");
@@ -115,11 +136,20 @@ app.get(url['user-edit'], function(req, res) {
 // 바코드
 // 바코드 입력
 app.get(url['barcode-reg'], function(req, res){
-	db_connector.barcode_new(req.query).then(function(result){
+	db_connector.barcode_new(req.query).then(function(data){
+		const result = {
+			type : 'barcode-reg',
+			error : false,
+			message : data
+		}
 		res.send(result);
 	}).catch(function(err){
-		log(err);
-		res.send("error");
+		const result = {
+			type : 'barcode-reg',
+			error : true,
+			message : err
+		}
+		res.send(result);
 	});
 })
 
