@@ -52,6 +52,7 @@ class DB_master{
         }
 
         this.log(str);
+        this.log(values);
 
         return new Promise(async (resolve, reject) => {
             let pool;
@@ -97,6 +98,7 @@ class DB_master{
         str += `)`;
 
         this.log(str);
+        this.log(datas);
         return new Promise(async (resolve, reject) => {
             let pool
             try{

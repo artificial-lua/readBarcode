@@ -15,12 +15,17 @@ url = config['url']
 blacklist = config['black-list']
 
 const db_connector = new barcode_db_connector(db, true);
-crawler = new Crawler();
-
 function log(log){
-	log = "[" + new Date() + "]::" + JSON.stringify(log)
+	log = "[" + new Date() + "] Log ::" + JSON.stringify(log)
 	if (debug == true){
 		console.log(log)
+	}
+}
+
+function err(err){
+	err = "[" + new Date() + "] Err ::" + JSON.stringify(err)
+	if (debug == true){
+		console.log(err)
 	}
 }
 /*
@@ -155,11 +160,30 @@ app.get(url['barcode-reg'], function(req, res){
 
 // 바코드 조회
 app.get(url['barcode-search'], async function(req, res){
-	db_connector.barcode_search(req.query).then(function(result){
+	await db_connector.barcode_search(req.query).then(async function(data){
+		let result;
+		if(data.length == 0){
+			result = {
+				type : 'barcode-search',
+				error : true,
+				message : 'no item'
+			}
+		}else{
+			result = {
+				type : 'barcode-search',
+				error : false,
+				result : data[0]
+			}
+		}
 		res.send(result);
+		log(result);
 	}).catch(function(err){
 		log(err);
-		res.send("error");
+		res.send({
+			type : 'barcode-search',
+			error : true,
+			message : err
+		});
 	});
 })
 // 바코드 평가

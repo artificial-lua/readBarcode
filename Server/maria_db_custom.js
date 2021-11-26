@@ -82,7 +82,7 @@ class barcode_db_connector{
                     value : json.id
                 }
             }).then(data => {
-                if(data.length == 0){
+                if(data == null){
                     reject("user not found");
                 }else{
                     if(data[0].hash == this.make_hash(json.password)){
@@ -219,8 +219,9 @@ class barcode_db_connector{
                         query : "raw",
                         value : json.barcode
                     }
-                }).then(data => {
-                    resolve(data);
+                }).then(result => {
+                    console.log(result)
+                    resolve(result);
                 }).catch(err => {
                     reject(err);
                 });
