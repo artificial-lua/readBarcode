@@ -2,9 +2,9 @@ const XMLHttpRequest = require("xhr2");
 
 class Crawler{
     constructor(foodsafety = {
-        // url : "http://openapi.foodsafetykorea.go.kr/api/",
-        // keyId : "f65590d907254730a315",
-        // serviceId : "C005/json/1/5/BAR_CD="
+        url : "http://openapi.foodsafetykorea.go.kr/api/",
+        keyId : "f65590d907254730a315",
+        serviceId : "C005/json/1/5/BAR_CD="
     }){
         this.url = [];
         this.xhr = new XMLHttpRequest();

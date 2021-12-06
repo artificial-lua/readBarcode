@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const { DB_master } = require('./maria_db_master.js');
+const { Crawler } = require('./rest.js')
 
 class barcode_db_connector{
     constructor(json, debug = false){
@@ -222,6 +223,28 @@ class barcode_db_connector{
                 }).then(result => {
                     console.log("result >>>")
                     console.log(result)
+                    if (result == []){
+                        const crw = new Crawler();
+                        crw.get[0](json.barcode).then(data => {
+                            if(data.length == 0){
+                                reject("barcode not found");
+                            }else{
+                                //insert new barcode in barcode_rawdata table
+                                this.conn.insert({
+                                    table: 'barcode_rawdata',
+                                    values: ['DEFAULT', json.barcode, data[0].user_num, 'NOW()', data[0].title, data[0].des]
+                                }).then(() => {
+                                    resolve("barcode inserted");
+                                }).catch(err => {
+                                    reject(err);
+                                });
+                            }
+                        }
+                        ).catch(err => {
+                            reject(err);
+                        }
+                        );
+                    }
                     resolve(result);
                 }).catch(err => {
                     reject(err);
