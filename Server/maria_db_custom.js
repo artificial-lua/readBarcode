@@ -231,7 +231,8 @@ class barcode_db_connector{
                                 title: data,
                                 des: "",
                                 time: "",
-                                user_num: 1
+                                user_num: 1,
+                                length: 1
                             }
                         });
                         resolve(result);
