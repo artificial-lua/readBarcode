@@ -220,6 +220,7 @@ class barcode_db_connector{
                         value : json.barcode
                     }
                 }).then(result => {
+                    console.log("result >>>")
                     console.log(result)
                     resolve(result);
                 }).catch(err => {
