@@ -176,6 +176,7 @@ app.get(url['barcode-search'], async function(req, res){
 			}
 		}
 		res.send(result);
+		log("result >>>")
 		log(result);
 	}).catch(function(err){
 		log(err);
