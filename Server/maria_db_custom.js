@@ -234,6 +234,7 @@ class barcode_db_connector{
                                 user_num: 1
                             }
                         });
+                        resolve(result);
                     }
                     resolve(result);
                 }).catch(err => {
